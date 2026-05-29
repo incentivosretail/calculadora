@@ -1,3 +1,4 @@
+html_code = '''<!DOCTYPE html>
 <html lang="es">
 <head>
 <script type="text/javascript">
@@ -73,10 +74,6 @@ color: white; margin-top: 12px; box-shadow: 0 6px 20px rgba(0,61,165,0.4);
 .footer { text-align: center; color: #999; font-size: 0.75em; margin-top: 16px; padding-bottom: 20px; }
 .puesto-content { display: none; }
 .puesto-content.activo { display: block; }
-.tabla-rangos { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.82em; }
-.tabla-rangos th { background: #003DA5; color: white; padding: 6px 8px; text-align: center; }
-.tabla-rangos td { padding: 5px 8px; text-align: center; border-bottom: 1px solid #E8F0FF; }
-.tabla-rangos tr:nth-child(even) { background: #F0F4FF; }
 .pilar-badge {
 display: inline-block; background: #FFD100; color: #003DA5; font-weight: bold;
 padding: 2px 10px; border-radius: 8px; font-size: 0.78em; margin-bottom: 4px;
@@ -122,16 +119,6 @@ font-size: 0.75em; color: #856404; margin-top: 4px;
 Se paga incentivo de acuerdo al % de cumplimiento de la meta de venta de equipo.
 Todos los asesores del equipo ganan el mismo incentivo.
 </p>
-<table class="tabla-rangos">
-<tr><th>% Cumplimiento de meta por Equipo</th><th>Incentivo</th></tr>
-<tr><td>&lt; 80%</td><td>$0</td></tr>
-<tr><td>80.00% - 89.99%</td><td>$500</td></tr>
-<tr><td>90.00% - 94.99%</td><td>$750</td></tr>
-<tr><td>95.00% - 99.99%</td><td>$1,000</td></tr>
-<tr><td>100.00% - 109.99%</td><td>$1,300</td></tr>
-<tr><td>110.00% - 119.99%</td><td>$1,600</td></tr>
-<tr><td>≥ 120.00%</td><td>$1,900</td></tr>
-</table>
 <div class="input-group">
 <label>% Cumplimiento meta del equipo</label>
 <input type="text" id="av_equipo" placeholder="Ej: 95.5" oninput="calcularAsesor()">
@@ -148,12 +135,6 @@ Todos los asesores del equipo ganan el mismo incentivo.
 <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
 De acuerdo al resultado en los siguientes indicadores, se puede obtener hasta un 40% adicional.
 </p>
-<table class="tabla-rangos">
-<tr><th>Métrica</th><th>Multiplicador</th></tr>
-<tr><td>Cumplimiento Venta a Crédito ≥ 90%</td><td>+20%</td></tr>
-<tr><td>Primera compra Canal Digital ≥ 90%</td><td>+20%</td></tr>
-<tr><td><strong>Total posible</strong></td><td><strong>Hasta +40%</strong></td></tr>
-</table>
 <div class="input-group">
 <label>% Cumplimiento Venta a Crédito (Tienda)</label>
 <input type="text" id="av_credito" placeholder="Ej: 92.0" oninput="calcularAsesor()">
@@ -176,10 +157,6 @@ De acuerdo al resultado en los siguientes indicadores, se puede obtener hasta un
 Se otorga una comisión individual por la venta realizada de acuerdo al tipo de producto
 y al cumplimiento de la meta de venta del equipo.
 </p>
-<table class="tabla-rangos">
-<tr><th>Tipo de venta</th><th>Cump. Equipo ≥80%</th><th>Cump. Equipo ≥100%</th></tr>
-<tr><td>Seguros y Coppel Soluciones</td><td>2%</td><td>4%</td></tr>
-</table>
 <div id="av_chip_tasas"></div>
 <hr class="divider">
 <p class="subtitulo">Seguros y Coppel Soluciones</p>
@@ -203,11 +180,6 @@ y al cumplimiento de la meta de venta del equipo.
 Se paga un incentivo extra sobre todo el incentivo ganado por los pilares anteriores,
 dependiendo del cumplimiento de venta total de la tienda.
 </p>
-<table class="tabla-rangos">
-<tr><th>Cumplimiento meta de venta de tienda</th><th>Incentivo adicional</th></tr>
-<tr><td>≥ 100%</td><td>+20%</td></tr>
-</table>
-<p style="font-size:0.78em; color:#555; margin-bottom:8px;">Sobre el incentivo generado por Venta de Equipo + Multiplicadores + Comisiones</p>
 <div class="input-group">
 <label>% Cumplimiento meta de la tienda</label>
 <input type="text" id="av_tienda" placeholder="Ej: 102.0" oninput="calcularAsesor()">
@@ -235,16 +207,6 @@ dependiendo del cumplimiento de venta total de la tienda.
 <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
 Se paga un incentivo base de acuerdo al cumplimiento de meta de la tienda (suma de Ropa + Muebles).
 </p>
-<table class="tabla-rangos">
-<tr><th>% Cumplimiento meta venta tienda</th><th>Incentivo por productividad</th></tr>
-<tr><td>&lt; 80%</td><td>$0</td></tr>
-<tr><td>80.00% - 89.99%</td><td>$850</td></tr>
-<tr><td>90.00% - 94.99%</td><td>$1,150</td></tr>
-<tr><td>95.00% - 99.99%</td><td>$1,550</td></tr>
-<tr><td>100.00% - 109.99%</td><td>$2,350</td></tr>
-<tr><td>110.00% - 119.99%</td><td>$3,550</td></tr>
-<tr><td>≥ 120%</td><td>$4,950</td></tr>
-</table>
 <div class="input-group">
 <label>% Cumplimiento meta de venta de la tienda</label>
 <input type="text" id="ger_tienda" placeholder="Ej: 103.0" oninput="calcularGerente()">
@@ -261,13 +223,6 @@ Se paga un incentivo base de acuerdo al cumplimiento de meta de la tienda (suma 
 <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
 Se realiza la multiplicación sobre el incentivo base, de acuerdo al % de cumplimiento de la evaluación objetiva.
 </p>
-<table class="tabla-rangos">
-<tr><th>Resultado de evaluación objetiva</th><th>Multiplicador</th></tr>
-<tr><td>98% - 100%</td><td>x1.70</td></tr>
-<tr><td>96% - 97%</td><td>x1.50</td></tr>
-<tr><td>90% - 95%</td><td>x1.20</td></tr>
-<tr><td>0% - 89%</td><td>x1.00</td></tr>
-</table>
 <div class="input-group">
 <label>% Resultado de Evaluación Objetiva</label>
 <input type="text" id="ger_eval" placeholder="Ej: 97.0" oninput="calcularGerente()">
@@ -280,7 +235,7 @@ Se realiza la multiplicación sobre el incentivo base, de acuerdo al % de cumpli
 <div id="ger_resultado"></div>
 </div>
 
-<div class="footer">Calculadora Interna • v3.0 • Solo para uso interno</div>
+<div class="footer">Calculadora Interna • v3.1 • Solo para uso interno</div>
 
 <script>
 /* =====================================================
@@ -368,10 +323,10 @@ document.getElementById('av_chip_mult').innerHTML = chipM;
 var pctS = 0, etiquetaTasa = '';
 if (ce >= 100) {
 pctS = 0.04;
-etiquetaTasa = chipHTML('verde', '✅ Cumpl. Equipo ≥ 100% → Seguros/Soluciones al 4%');
+etiquetaTasa = chipHTML('verde', '✅ Cumpl. Equipo ≥ 100% → Comisión aplicada');
 } else if (ce >= 80) {
 pctS = 0.02;
-etiquetaTasa = chipHTML('amarillo', '⚠️ Cumpl. Equipo ≥ 80% → Seguros/Soluciones al 2%');
+etiquetaTasa = chipHTML('amarillo', '⚠️ Cumpl. Equipo ≥ 80% → Comisión parcial');
 } else {
 pctS = 0;
 etiquetaTasa = chipHTML('rojo', '❌ Cumpl. Equipo < 80% → Sin comisiones');
@@ -402,7 +357,7 @@ var bono = ct >= 100 ? 0.20 : 0.0;
 var bonoExtra = subtotal * bono;
 
 if (ct >= 100)
-document.getElementById('av_chip_tienda').innerHTML = chipHTML('verde', '✅ Tienda ≥ 100% → +20% sobre (Equipo + Multiplicadores + Comisiones)');
+document.getElementById('av_chip_tienda').innerHTML = chipHTML('verde', '✅ Tienda ≥ 100% → Bono adicional sobre Equipo + Multiplicadores + Comisiones');
 else
 document.getElementById('av_chip_tienda').innerHTML = chipHTML('rojo', '❌ Tienda < 100% — Sin bono de tienda');
 
@@ -459,10 +414,10 @@ else if (ev >= 90) multEval = 1.2;
 else multEval = 1.0;
 
 var chipE = '';
-if (multEval === 1.7) chipE = chipHTML('verde', '✅ 98% - 100% → x1.70');
-else if (multEval === 1.5) chipE = chipHTML('verde', '✅ 96% - 97% → x1.50');
-else if (multEval === 1.2) chipE = chipHTML('amarillo', '⚠️ 90% - 95% → x1.20');
-else chipE = chipHTML('rojo', '❌ 0% - 89% → x1.00');
+if (multEval === 1.7) chipE = chipHTML('verde', '✅ Evaluación 98-100% → Multiplicador máximo');
+else if (multEval === 1.5) chipE = chipHTML('verde', '✅ Evaluación 96-97% → Multiplicador alto');
+else if (multEval === 1.2) chipE = chipHTML('amarillo', '⚠️ Evaluación 90-95% → Multiplicador parcial');
+else chipE = chipHTML('rojo', '❌ Evaluación 0-89% → Multiplicador base');
 
 document.getElementById('ger_chip_eval').innerHTML = chipE;
 document.getElementById('ger_metrica_eval').innerHTML =
@@ -483,4 +438,3 @@ calcularAsesor();
 </script>
 </body>
 </html>'''
-
