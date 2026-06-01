@@ -191,7 +191,7 @@ body {
     <div class="card-titulo">🏪 Meta de Tienda</div>
     <hr class="divider">
     <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se paga un incentivo base de acuerdo al cumplimiento de meta de la tienda (suma de Ropa + Muebles).
+      Se paga un incentivo base dependiendo del cumplimiento de meta de venta de la tienda.
     </p>
     <div class="input-group">
       <label>% Cumplimiento meta de venta de la tienda</label>
@@ -206,21 +206,21 @@ body {
     <div class="card-titulo">📋 Evaluación Objetiva</div>
     <hr class="divider">
     <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se realiza la multiplicación sobre el incentivo base, de acuerdo al % de cumplimiento de la evaluación objetiva.
+      Se paga incentivo de acuerdo a la calificación obtenida en la Evaluación Objetiva.
     </p>
     <div class="input-group">
       <label>% Resultado de Evaluación Objetiva</label>
-      <input type="text" id="ger_eval" placeholder="Ej: 97.0" oninput="calcularGerente()">
+      <input type="text" id="ger_eval" placeholder="Ej: 92.0" oninput="calcularGerente()">
     </div>
     <div id="ger_chip_eval"></div>
     <div id="ger_metrica_eval" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Sujeto a: cumplir al menos con 80% de venta de Tienda.</p>
+    <p class="nota-info">⚠️ Sujeto a: cumplir al menos con 89% de venta de Tienda.</p>
   </div>
 
   <div id="ger_resultado"></div>
 </div>
 
-<div class="footer">Calculadora Interna • v3.5 • Solo para uso interno</div>
+<div class="footer">Calculadora Interna • v4.0 • Solo para uso interno</div>
 
 <script>
 function leerNum(id) {
@@ -260,11 +260,11 @@ function calcularAsesor() {
   var base = 0;
   if      (ce < 80)  base = 0;
   else if (ce < 90)  base = 400;
-  else if (ce < 95)  base = 700;
-  else if (ce < 100) base = 900;
-  else if (ce < 110) base = 1200;
-  else if (ce < 120) base = 1500;
-  else               base = 1800;
+  else if (ce < 95)  base = 800;
+  else if (ce < 100) base = 1000;
+  else if (ce < 110) base = 1300;
+  else if (ce < 120) base = 1600;
+  else               base = 1900;
 
   var chipEq = '';
   if (ce < 80)       chipEq = chipHTML('rojo',     '❌ < 80% — Sin incentivo base ni comisiones');
@@ -338,41 +338,45 @@ function calcularGerente() {
   var ct = leerNum('ger_tienda');
 
   var base = 0;
-  if      (ct < 80)  base = 0;
-  else if (ct < 90)  base = 850;
-  else if (ct < 95)  base = 1150;
-  else if (ct < 100) base = 1550;
-  else if (ct < 110) base = 2350;
-  else if (ct < 120) base = 3550;
-  else               base = 4950;
+  if      (ct < 85)  base = 0;
+  else if (ct < 90)  base = 900;
+  else if (ct < 95)  base = 1300;
+  else if (ct < 100) base = 1600;
+  else if (ct < 110) base = 2200;
+  else if (ct < 120) base = 2800;
+  else               base = 3400;
 
   var chipT = '';
-  if (ct < 80)       chipT = chipHTML('rojo',     '❌ < 80% — Sin incentivo');
-  else if (ct < 100) chipT = chipHTML('amarillo', '⚠️ Cumplimiento parcial (80% - 99.99%)');
+  if (ct < 85)       chipT = chipHTML('rojo',     '❌ < 85% — Sin incentivo');
+  else if (ct < 100) chipT = chipHTML('amarillo', '⚠️ Cumplimiento parcial (85% - 99.99%)');
   else               chipT = chipHTML('verde',    '✅ Meta alcanzada');
 
   document.getElementById('ger_chip_tienda').innerHTML = chipT;
   document.getElementById('ger_metrica_base').innerHTML = metricaHTML('💰 Incentivo Base', fmt(base));
 
-  if (ct < 80) {
-    document.getElementById('ger_chip_eval').innerHTML = chipHTML('rojo', '❌ No aplica — Cumplimiento de tienda < 80%');
+  if (ct < 85) {
+    document.getElementById('ger_chip_eval').innerHTML = chipHTML('rojo', '❌ No aplica — Cumplimiento de tienda < 85%');
     document.getElementById('ger_metrica_eval').innerHTML = '';
-    document.getElementById('ger_resultado').innerHTML = resultadoHTML(0, 'No se cumple el requisito mínimo de 80% de venta de tienda.');
+    document.getElementById('ger_resultado').innerHTML = resultadoHTML(0, 'No se cumple el requisito mínimo de venta de tienda.');
     return;
   }
 
   var ev = leerNum('ger_eval');
   var multEval = 1.0;
-  if      (ev >= 98) multEval = 1.7;
-  else if (ev >= 96) multEval = 1.5;
-  else if (ev >= 90) multEval = 1.2;
+  if      (ev >= 95) multEval = 2.0;
+  else if (ev >= 90) multEval = 1.7;
+  else if (ev >= 80) multEval = 1.5;
+  else if (ev >= 75) multEval = 1.3;
+  else if (ev >= 70) multEval = 1.1;
   else               multEval = 1.0;
 
   var chipE = '';
-  if      (multEval === 1.7) chipE = chipHTML('verde',    '✅ Evaluación 98-100% → Multiplicador máximo');
-  else if (multEval === 1.5) chipE = chipHTML('verde',    '✅ Evaluación 96-97% → Multiplicador alto');
-  else if (multEval === 1.2) chipE = chipHTML('amarillo', '⚠️ Evaluación 90-95% → Multiplicador parcial');
-  else                       chipE = chipHTML('rojo',     '❌ Evaluación 0-89% → Multiplicador base');
+  if      (multEval === 2.0) chipE = chipHTML('verde',    '✅ Evaluación 95-100% → Multiplicador máximo');
+  else if (multEval === 1.7) chipE = chipHTML('verde',    '✅ Evaluación 90-94% → Multiplicador muy alto');
+  else if (multEval === 1.5) chipE = chipHTML('verde',    '✅ Evaluación 80-89% → Multiplicador alto');
+  else if (multEval === 1.3) chipE = chipHTML('amarillo', '⚠️ Evaluación 75-79% → Multiplicador medio');
+  else if (multEval === 1.1) chipE = chipHTML('amarillo', '⚠️ Evaluación 70-74% → Multiplicador parcial');
+  else                       chipE = chipHTML('rojo',     '❌ Evaluación 0-69% → Multiplicador base');
 
   document.getElementById('ger_chip_eval').innerHTML = chipE;
   document.getElementById('ger_metrica_eval').innerHTML =
