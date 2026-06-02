@@ -97,14 +97,18 @@ body {
     <option value="gerente">👔 Gerente Titular</option>
   </select>
 </div>
+
 <hr class="divider">
 
+<!-- ============================= ASESOR ============================= -->
 <div id="panelAsesor" class="puesto-content activo">
+
   <div class="header">
     <h1>🏆 Calculadora de Incentivos</h1>
     <p>Asesor de Ventas</p>
   </div>
 
+  <!-- PILAR 1 -->
   <div class="card">
     <span class="pilar-badge">PILAR 1</span>
     <div class="card-titulo">🤝 Venta de Equipo</div>
@@ -121,6 +125,7 @@ body {
     <div id="av_metrica_base" class="metricas-row"></div>
   </div>
 
+  <!-- PILAR 2 -->
   <div class="card">
     <span class="pilar-badge">PILAR 2</span>
     <div class="card-titulo">✖️ Multiplicadores</div>
@@ -141,6 +146,7 @@ body {
     <p class="nota-info">⚠️ Nota: Los multiplicadores se suman (máximo 40%).</p>
   </div>
 
+  <!-- PILAR 3 -->
   <div class="card">
     <span class="pilar-badge">PILAR 3</span>
     <div class="card-titulo">💼 Comisiones por Venta</div>
@@ -151,17 +157,21 @@ body {
     </p>
     <div id="av_chip_tasas"></div>
     <hr class="divider">
+
     <p class="subtitulo">Seguros y Servicios</p>
     <div class="input-group"><label>🛡️ Seguros Club de Protección ($)</label><input type="text" id="av_club" placeholder="Ej: 5000" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🏍️ Seguros Motos RC ($)</label><input type="text" id="av_mrc" placeholder="Ej: 3000" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🏍️ Seguros Motos PLUS ($)</label><input type="text" id="av_mplus" placeholder="Ej: 3000" oninput="calcularAsesor()"></div>
+    <div class="input-group"><label>📱 Seguros Celulares ($)</label><input type="text" id="av_cel" placeholder="Ej: 2000" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🔧 Garantía Extendida ($)</label><input type="text" id="av_gar" placeholder="Ej: 1500" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🔩 Servicio de Armado ($)</label><input type="text" id="av_arm" placeholder="Ej: 800" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🔌 Servicio de Instalación ($)</label><input type="text" id="av_inst" placeholder="Ej: 600" oninput="calcularAsesor()"></div>
+
     <div id="av_metrica_comisiones" class="metricas-row"></div>
     <p class="nota-info">⚠️ Nota: La venta se toma individual con número de vendedor registrado.</p>
   </div>
 
+  <!-- PILAR 4 -->
   <div class="card">
     <span class="pilar-badge">PILAR 4</span>
     <div class="card-titulo">🏪 Venta de Tienda</div>
@@ -180,12 +190,15 @@ body {
   <div id="av_resultado"></div>
 </div>
 
+<!-- ============================= GERENTE ============================= -->
 <div id="panelGerente" class="puesto-content">
+
   <div class="header">
     <h1>🏆 Calculadora de Incentivos</h1>
     <p>Gerente Titular</p>
   </div>
 
+  <!-- PILAR 1 -->
   <div class="card">
     <span class="pilar-badge">PILAR 1</span>
     <div class="card-titulo">🏪 Meta de Tienda</div>
@@ -201,6 +214,7 @@ body {
     <div id="ger_metrica_base" class="metricas-row"></div>
   </div>
 
+  <!-- PILAR 2 -->
   <div class="card">
     <span class="pilar-badge">PILAR 2</span>
     <div class="card-titulo">📋 Evaluación Objetiva</div>
@@ -220,7 +234,7 @@ body {
   <div id="ger_resultado"></div>
 </div>
 
-<div class="footer">Calculadora Interna • v4.0 • Solo para uso interno</div>
+<div class="footer">Calculadora Interna • v4.1 • Solo para uso interno</div>
 
 <script>
 function leerNum(id) {
@@ -255,8 +269,8 @@ function mostrarPuesto() {
 }
 
 function calcularAsesor() {
+  // === PILAR 1: Venta de Equipo ===
   var ce = leerNum('av_equipo');
-
   var base = 0;
   if      (ce < 80)  base = 0;
   else if (ce < 90)  base = 400;
@@ -273,6 +287,7 @@ function calcularAsesor() {
   document.getElementById('av_chip_equipo').innerHTML = chipEq;
   document.getElementById('av_metrica_base').innerHTML = metricaHTML('💰 Incentivo Equipo', fmt(base));
 
+  // === PILAR 2: Multiplicadores ===
   var cc = leerNum('av_credito');
   var cd = leerNum('av_digital');
   var pctMultCredito = (cc >= 90) ? 0.20 : 0;
@@ -287,6 +302,7 @@ function calcularAsesor() {
   else          chipM += chipHTML('rojo',  '❌ Primera compra Canal Digital < 90% → +0%');
   document.getElementById('av_chip_mult').innerHTML = chipM;
 
+  // === PILAR 3: Comisiones ===
   var pctS = 0, etiquetaTasa = '';
   if (ce >= 100) {
     pctS = 0.05;
@@ -301,21 +317,24 @@ function calcularAsesor() {
   document.getElementById('av_chip_tasas').innerHTML = etiquetaTasa;
 
   var vClub = leerNum('av_club'), vMrc = leerNum('av_mrc'), vMplus = leerNum('av_mplus');
-  var vGar = leerNum('av_gar');
-  var vArm = leerNum('av_arm'), vInst = leerNum('av_inst');
-  var totalCom = (vClub + vMrc + vMplus + vGar + vArm + vInst) * pctS;
+  var vCel  = leerNum('av_cel');
+  var vGar  = leerNum('av_gar');
+  var vArm  = leerNum('av_arm'), vInst = leerNum('av_inst');
+
+  var totalCom = (vClub + vMrc + vMplus + vCel + vGar + vArm + vInst) * pctS;
 
   document.getElementById('av_metrica_comisiones').innerHTML =
     metricaHTML('📊 Total Comisiones', fmt(totalCom));
 
+  // === Multiplicadores sobre base + comisiones ===
   var baseParaMult = base + totalCom;
   var montoMult = baseParaMult * pctMultTotal;
-
   document.getElementById('av_metrica_mult').innerHTML =
     metricaHTML('📐 Base (Equipo+Com)', fmt(baseParaMult)) +
     metricaHTML('📊 % Adicional', '+' + (pctMultTotal * 100).toFixed(0) + '%') +
     metricaHTML('💰 Multiplicadores', fmt(montoMult));
 
+  // === PILAR 4: Venta de Tienda ===
   var ct = leerNum('av_tienda');
   var subtotal = base + totalCom + montoMult;
   var bono = ct >= 100 ? 0.20 : 0.0;
@@ -326,6 +345,7 @@ function calcularAsesor() {
   else
     document.getElementById('av_chip_tienda').innerHTML = chipHTML('rojo', '❌ Tienda < 100% — Sin bono de tienda');
 
+  // === RESULTADO FINAL ===
   var total = subtotal + bonoExtra;
   var desg = 'Pilar 1 - Equipo: ' + fmt(base);
   desg += '<br>Pilar 2 - Multiplicadores (+' + (pctMultTotal * 100).toFixed(0) + '%): ' + fmt(montoMult);
@@ -336,7 +356,6 @@ function calcularAsesor() {
 
 function calcularGerente() {
   var ct = leerNum('ger_tienda');
-
   var base = 0;
   if      (ct < 85)  base = 0;
   else if (ct < 90)  base = 900;
@@ -350,7 +369,6 @@ function calcularGerente() {
   if (ct < 85)       chipT = chipHTML('rojo',     '❌ < 85% — Sin incentivo');
   else if (ct < 100) chipT = chipHTML('amarillo', '⚠️ Cumplimiento parcial (85% - 99.99%)');
   else               chipT = chipHTML('verde',    '✅ Meta alcanzada');
-
   document.getElementById('ger_chip_tienda').innerHTML = chipT;
   document.getElementById('ger_metrica_base').innerHTML = metricaHTML('💰 Incentivo Base', fmt(base));
 
@@ -377,8 +395,8 @@ function calcularGerente() {
   else if (multEval === 1.3) chipE = chipHTML('amarillo', '⚠️ Evaluación 75-79% → Multiplicador medio');
   else if (multEval === 1.1) chipE = chipHTML('amarillo', '⚠️ Evaluación 70-74% → Multiplicador parcial');
   else                       chipE = chipHTML('rojo',     '❌ Evaluación 0-69% → Multiplicador base');
-
   document.getElementById('ger_chip_eval').innerHTML = chipE;
+
   document.getElementById('ger_metrica_eval').innerHTML =
     metricaHTML('💰 Incentivo Base', fmt(base)) +
     metricaHTML('✖️ Multiplicador', 'x' + multEval.toFixed(2)) +
