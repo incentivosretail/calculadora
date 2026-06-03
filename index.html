@@ -158,17 +158,21 @@ body {
     <div id="av_chip_tasas"></div>
     <hr class="divider">
 
-    <p class="subtitulo">Seguros y Servicios</p>
+    <p class="subtitulo">Coppel Soluciones y Seguros</p>
     <div class="input-group"><label>🛡️ Seguros Club de Protección ($)</label><input type="text" id="av_club" placeholder="Ej: 5000" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🏍️ Seguros Motos RC ($)</label><input type="text" id="av_mrc" placeholder="Ej: 3000" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🏍️ Seguros Motos PLUS ($)</label><input type="text" id="av_mplus" placeholder="Ej: 3000" oninput="calcularAsesor()"></div>
-    <div class="input-group"><label>📱 Seguros Celulares ($)</label><input type="text" id="av_cel" placeholder="Ej: 2000" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🔧 Garantía Extendida ($)</label><input type="text" id="av_gar" placeholder="Ej: 1500" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🔩 Servicio de Armado ($)</label><input type="text" id="av_arm" placeholder="Ej: 800" oninput="calcularAsesor()"></div>
     <div class="input-group"><label>🔌 Servicio de Instalación ($)</label><input type="text" id="av_inst" placeholder="Ej: 600" oninput="calcularAsesor()"></div>
 
+    <hr class="divider">
+    <p class="subtitulo">Seguros Celulares (tasa diferenciada)</p>
+    <div class="input-group"><label>📱 Seguros Celulares ($)</label><input type="text" id="av_cel" placeholder="Ej: 18460" oninput="calcularAsesor()"></div>
+
     <div id="av_metrica_comisiones" class="metricas-row"></div>
     <p class="nota-info">⚠️ Nota: La venta se toma individual con número de vendedor registrado.</p>
+    <p class="nota-info">📱 Seguros Celulares comisiona al 1.5% (≥80%) o 2.5% (≥100%), distinto al resto (3% / 5%).</p>
   </div>
 
   <!-- PILAR 4 -->
@@ -228,13 +232,13 @@ body {
     </div>
     <div id="ger_chip_eval"></div>
     <div id="ger_metrica_eval" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Sujeto a: cumplir al menos con 85% de venta de Tienda.</p>
+    <p class="nota-info">⚠️ Sujeto a: cumplir al menos con 89% de venta de Tienda.</p>
   </div>
 
   <div id="ger_resultado"></div>
 </div>
 
-<div class="footer">Calculadora Interna • v4.1 • Solo para uso interno</div>
+<div class="footer">Calculadora Interna • v4.2 • Solo para uso interno</div>
 
 <script>
 function leerNum(id) {
@@ -302,28 +306,43 @@ function calcularAsesor() {
   else          chipM += chipHTML('rojo',  '❌ Primera compra Canal Digital < 90% → +0%');
   document.getElementById('av_chip_mult').innerHTML = chipM;
 
-  // === PILAR 3: Comisiones ===
-  var pctS = 0, etiquetaTasa = '';
+  // === PILAR 3: Comisiones (tasas diferenciadas) ===
+  var pctS = 0;    // Tasa general (Seguros, Garantía, Armado, Instalación)
+  var pctCel = 0;  // Tasa Seguros Celulares
+  var etiquetaTasa = '';
+
   if (ce >= 100) {
-    pctS = 0.05;
-    etiquetaTasa = chipHTML('verde', '✅ Cumpl. Equipo ≥ 100% → Comisión al 5%');
+    pctS   = 0.05;   // 5%
+    pctCel = 0.025;  // 2.5%
+    etiquetaTasa  = chipHTML('verde', '✅ Cumpl. Equipo ≥ 100% → Comisión general al 5%');
+    etiquetaTasa += '<br>' + chipHTML('verde', '📱 Seguros Celulares → Comisión al 2.5%');
   } else if (ce >= 80) {
-    pctS = 0.03;
-    etiquetaTasa = chipHTML('amarillo', '⚠️ Cumpl. Equipo ≥ 80% → Comisión al 3%');
+    pctS   = 0.03;   // 3%
+    pctCel = 0.015;  // 1.5%
+    etiquetaTasa  = chipHTML('amarillo', '⚠️ Cumpl. Equipo ≥ 80% → Comisión general al 3%');
+    etiquetaTasa += '<br>' + chipHTML('amarillo', '📱 Seguros Celulares → Comisión al 1.5%');
   } else {
-    pctS = 0;
+    pctS   = 0;
+    pctCel = 0;
     etiquetaTasa = chipHTML('rojo', '❌ Cumpl. Equipo < 80% → Sin comisiones');
   }
   document.getElementById('av_chip_tasas').innerHTML = etiquetaTasa;
 
+  // Lectura de montos
   var vClub = leerNum('av_club'), vMrc = leerNum('av_mrc'), vMplus = leerNum('av_mplus');
-  var vCel  = leerNum('av_cel');
   var vGar  = leerNum('av_gar');
   var vArm  = leerNum('av_arm'), vInst = leerNum('av_inst');
+  var vCel  = leerNum('av_cel');
 
-  var totalCom = (vClub + vMrc + vMplus + vCel + vGar + vArm + vInst) * pctS;
+  // Comisiones con tasa general (3% / 5%)
+  var comGeneral = (vClub + vMrc + vMplus + vGar + vArm + vInst) * pctS;
+  // Comisión Seguros Celulares con tasa diferenciada (1.5% / 2.5%)
+  var comCel     = vCel * pctCel;
+  var totalCom   = comGeneral + comCel;
 
   document.getElementById('av_metrica_comisiones').innerHTML =
+    metricaHTML('🛡️ Com. General', fmt(comGeneral)) +
+    metricaHTML('📱 Com. Celulares', fmt(comCel)) +
     metricaHTML('📊 Total Comisiones', fmt(totalCom));
 
   // === Multiplicadores sobre base + comisiones ===
@@ -349,7 +368,7 @@ function calcularAsesor() {
   var total = subtotal + bonoExtra;
   var desg = 'Pilar 1 - Equipo: ' + fmt(base);
   desg += '<br>Pilar 2 - Multiplicadores (+' + (pctMultTotal * 100).toFixed(0) + '%): ' + fmt(montoMult);
-  desg += '<br>Pilar 3 - Comisiones: ' + fmt(totalCom);
+  desg += '<br>Pilar 3 - Comisiones: ' + fmt(totalCom) + ' (General: ' + fmt(comGeneral) + ' + Celulares: ' + fmt(comCel) + ')';
   desg += '<br>Pilar 4 - Bono Tienda (+' + (bono * 100).toFixed(0) + '%): ' + fmt(bonoExtra);
   document.getElementById('av_resultado').innerHTML = resultadoHTML(total, desg);
 }
