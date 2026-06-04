@@ -131,7 +131,8 @@ body {
     <div class="card-titulo">✖️ Multiplicadores</div>
     <hr class="divider">
     <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      De acuerdo al resultado en los siguientes indicadores, se puede obtener hasta un 40% adicional.
+      De acuerdo al resultado en los siguientes indicadores, se puede obtener hasta un 40% adicional
+      sobre el incentivo base del Pilar 1.
     </p>
     <div class="input-group">
       <label>% Cumplimiento Venta a Crédito (Tienda)</label>
@@ -143,7 +144,7 @@ body {
     </div>
     <div id="av_chip_mult"></div>
     <div id="av_metrica_mult" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Nota: Los multiplicadores se suman (máximo 40%).</p>
+    <p class="nota-info">⚠️ Nota: Los multiplicadores se suman (máximo 40%). Se aplican solo sobre el Pilar 1.</p>
   </div>
 
   <!-- PILAR 3 -->
@@ -238,7 +239,7 @@ body {
   <div id="ger_resultado"></div>
 </div>
 
-<div class="footer">Calculadora Interna • v4.2 • Solo para uso interno</div>
+<div class="footer">Calculadora Interna • v4.3 • Solo para uso interno</div>
 
 <script>
 function leerNum(id) {
@@ -291,12 +292,14 @@ function calcularAsesor() {
   document.getElementById('av_chip_equipo').innerHTML = chipEq;
   document.getElementById('av_metrica_base').innerHTML = metricaHTML('💰 Incentivo Equipo', fmt(base));
 
-  // === PILAR 2: Multiplicadores ===
+  // === PILAR 2: Multiplicadores (SOLO sobre Pilar 1) ===
   var cc = leerNum('av_credito');
   var cd = leerNum('av_digital');
   var pctMultCredito = (cc >= 90) ? 0.20 : 0;
   var pctMultDigital = (cd >= 90) ? 0.20 : 0;
   var pctMultTotal   = pctMultCredito + pctMultDigital;
+
+  var montoMult = base * pctMultTotal; // ✅ CORREGIDO: solo sobre base (Pilar 1)
 
   var chipM = '';
   if (cc >= 90) chipM += chipHTML('verde', '✅ Vta Crédito Tienda ≥ 90% → +20%');
@@ -305,6 +308,11 @@ function calcularAsesor() {
   if (cd >= 90) chipM += chipHTML('verde', '✅ Primera compra Canal Digital ≥ 90% → +20%');
   else          chipM += chipHTML('rojo',  '❌ Primera compra Canal Digital < 90% → +0%');
   document.getElementById('av_chip_mult').innerHTML = chipM;
+
+  document.getElementById('av_metrica_mult').innerHTML =
+    metricaHTML('📐 Base (Pilar 1)', fmt(base)) +
+    metricaHTML('📊 % Adicional', '+' + (pctMultTotal * 100).toFixed(0) + '%') +
+    metricaHTML('💰 Multiplicadores', fmt(montoMult));
 
   // === PILAR 3: Comisiones (tasas diferenciadas) ===
   var pctS = 0;    // Tasa general (Seguros, Garantía, Armado, Instalación)
@@ -345,17 +353,9 @@ function calcularAsesor() {
     metricaHTML('📱 Com. Celulares', fmt(comCel)) +
     metricaHTML('📊 Total Comisiones', fmt(totalCom));
 
-  // === Multiplicadores sobre base + comisiones ===
-  var baseParaMult = base + totalCom;
-  var montoMult = baseParaMult * pctMultTotal;
-  document.getElementById('av_metrica_mult').innerHTML =
-    metricaHTML('📐 Base (Equipo+Com)', fmt(baseParaMult)) +
-    metricaHTML('📊 % Adicional', '+' + (pctMultTotal * 100).toFixed(0) + '%') +
-    metricaHTML('💰 Multiplicadores', fmt(montoMult));
-
   // === PILAR 4: Venta de Tienda ===
   var ct = leerNum('av_tienda');
-  var subtotal = base + totalCom + montoMult;
+  var subtotal = base + montoMult + totalCom;
   var bono = ct >= 100 ? 0.20 : 0.0;
   var bonoExtra = subtotal * bono;
 
