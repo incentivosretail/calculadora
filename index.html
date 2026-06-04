@@ -239,7 +239,7 @@ body {
   <div id="ger_resultado"></div>
 </div>
 
-<div class="footer">Calculadora Interna • v4.3 • Solo para uso interno</div>
+<div class="footer">Calculadora Interna • v4.4 • Solo para uso interno</div>
 
 <script>
 function leerNum(id) {
@@ -299,7 +299,7 @@ function calcularAsesor() {
   var pctMultDigital = (cd >= 90) ? 0.20 : 0;
   var pctMultTotal   = pctMultCredito + pctMultDigital;
 
-  var montoMult = base * pctMultTotal; // ✅ CORREGIDO: solo sobre base (Pilar 1)
+  var montoMult = base * pctMultTotal;
 
   var chipM = '';
   if (cc >= 90) chipM += chipHTML('verde', '✅ Vta Crédito Tienda ≥ 90% → +20%');
@@ -315,18 +315,18 @@ function calcularAsesor() {
     metricaHTML('💰 Multiplicadores', fmt(montoMult));
 
   // === PILAR 3: Comisiones (tasas diferenciadas) ===
-  var pctS = 0;    // Tasa general (Seguros, Garantía, Armado, Instalación)
-  var pctCel = 0;  // Tasa Seguros Celulares
+  var pctS = 0;
+  var pctCel = 0;
   var etiquetaTasa = '';
 
   if (ce >= 100) {
-    pctS   = 0.05;   // 5%
-    pctCel = 0.025;  // 2.5%
+    pctS   = 0.05;
+    pctCel = 0.025;
     etiquetaTasa  = chipHTML('verde', '✅ Cumpl. Equipo ≥ 100% → Comisión general al 5%');
     etiquetaTasa += '<br>' + chipHTML('verde', '📱 Seguros Celulares → Comisión al 2.5%');
   } else if (ce >= 80) {
-    pctS   = 0.03;   // 3%
-    pctCel = 0.015;  // 1.5%
+    pctS   = 0.03;
+    pctCel = 0.015;
     etiquetaTasa  = chipHTML('amarillo', '⚠️ Cumpl. Equipo ≥ 80% → Comisión general al 3%');
     etiquetaTasa += '<br>' + chipHTML('amarillo', '📱 Seguros Celulares → Comisión al 1.5%');
   } else {
@@ -336,15 +336,12 @@ function calcularAsesor() {
   }
   document.getElementById('av_chip_tasas').innerHTML = etiquetaTasa;
 
-  // Lectura de montos
   var vClub = leerNum('av_club'), vMrc = leerNum('av_mrc'), vMplus = leerNum('av_mplus');
   var vGar  = leerNum('av_gar');
   var vArm  = leerNum('av_arm'), vInst = leerNum('av_inst');
   var vCel  = leerNum('av_cel');
 
-  // Comisiones con tasa general (3% / 5%)
   var comGeneral = (vClub + vMrc + vMplus + vGar + vArm + vInst) * pctS;
-  // Comisión Seguros Celulares con tasa diferenciada (1.5% / 2.5%)
   var comCel     = vCel * pctCel;
   var totalCom   = comGeneral + comCel;
 
@@ -374,14 +371,15 @@ function calcularAsesor() {
 }
 
 function calcularGerente() {
+  // === PILAR 1: Meta de Tienda (TABULADOR ACTUALIZADO) ===
   var ct = leerNum('ger_tienda');
   var base = 0;
   if      (ct < 85)  base = 0;
   else if (ct < 90)  base = 900;
-  else if (ct < 95)  base = 1300;
-  else if (ct < 100) base = 1600;
-  else if (ct < 110) base = 2200;
-  else if (ct < 120) base = 2800;
+  else if (ct < 95)  base = 1200;    // ✅ Antes: $1,300
+  else if (ct < 100) base = 1700;    // ✅ Antes: $1,600
+  else if (ct < 105) base = 2200;
+  else if (ct < 110) base = 2800;
   else               base = 3400;
 
   var chipT = '';
@@ -394,37 +392,38 @@ function calcularGerente() {
   if (ct < 85) {
     document.getElementById('ger_chip_eval').innerHTML = chipHTML('rojo', '❌ No aplica — Cumplimiento de tienda < 85%');
     document.getElementById('ger_metrica_eval').innerHTML = '';
-    document.getElementById('ger_resultado').innerHTML = resultadoHTML(0, 'No se cumple el requisito mínimo de venta de tienda.');
+    document.getElementById('ger_resultado').innerHTML = resultadoHTML(0, 'No se cumple el requisito mínimo de venta de tienda (85%).');
     return;
   }
 
+  // === PILAR 2: Evaluación Objetiva (RANGOS ACTUALIZADOS) ===
   var ev = leerNum('ger_eval');
   var multEval = 1.0;
-  if      (ev >= 95) multEval = 2.0;
-  else if (ev >= 90) multEval = 1.7;
-  else if (ev >= 80) multEval = 1.5;
+  if      (ev >= 90) multEval = 2.0;  // ✅ Antes: >= 95
+  else if (ev >= 85) multEval = 1.7;  // ✅ Nuevo rango
+  else if (ev >= 80) multEval = 1.5;  // ✅ Antes: 80-89
   else if (ev >= 75) multEval = 1.3;
   else if (ev >= 70) multEval = 1.1;
   else               multEval = 1.0;
 
   var chipE = '';
-  if      (multEval === 2.0) chipE = chipHTML('verde',    '✅ Evaluación 95-100% → Multiplicador máximo');
-  else if (multEval === 1.7) chipE = chipHTML('verde',    '✅ Evaluación 90-94% → Multiplicador muy alto');
-  else if (multEval === 1.5) chipE = chipHTML('verde',    '✅ Evaluación 80-89% → Multiplicador alto');
-  else if (multEval === 1.3) chipE = chipHTML('amarillo', '⚠️ Evaluación 75-79% → Multiplicador medio');
-  else if (multEval === 1.1) chipE = chipHTML('amarillo', '⚠️ Evaluación 70-74% → Multiplicador parcial');
-  else                       chipE = chipHTML('rojo',     '❌ Evaluación 0-69% → Multiplicador base');
+  if      (multEval === 2.0) chipE = chipHTML('verde',    '✅ Evaluación 90-100% → Multiplicador máximo x2.0');
+  else if (multEval === 1.7) chipE = chipHTML('verde',    '✅ Evaluación 85-89% → Multiplicador x1.7');
+  else if (multEval === 1.5) chipE = chipHTML('verde',    '✅ Evaluación 80-84% → Multiplicador x1.5');
+  else if (multEval === 1.3) chipE = chipHTML('amarillo', '⚠️ Evaluación 75-79% → Multiplicador x1.3');
+  else if (multEval === 1.1) chipE = chipHTML('amarillo', '⚠️ Evaluación 70-74% → Multiplicador x1.1');
+  else                       chipE = chipHTML('rojo',     '❌ Evaluación 0-69% → Multiplicador base x1.0');
   document.getElementById('ger_chip_eval').innerHTML = chipE;
 
   document.getElementById('ger_metrica_eval').innerHTML =
     metricaHTML('💰 Incentivo Base', fmt(base)) +
-    metricaHTML('✖️ Multiplicador', 'x' + multEval.toFixed(2)) +
+    metricaHTML('✖️ Multiplicador', 'x' + multEval.toFixed(1)) +
     metricaHTML('🏆 Total', fmt(base * multEval));
 
   var total = base * multEval;
   var desg = 'Pilar 1 - Meta Tienda: ' + fmt(base);
-  desg += '<br>Pilar 2 - Evaluación Objetiva: x' + multEval.toFixed(2);
-  desg += '<br>Cálculo: ' + fmt(base) + ' × ' + multEval.toFixed(2) + ' = ' + fmt(total);
+  desg += '<br>Pilar 2 - Evaluación Objetiva: x' + multEval.toFixed(1);
+  desg += '<br>Cálculo: ' + fmt(base) + ' × ' + multEval.toFixed(1) + ' = ' + fmt(total);
   document.getElementById('ger_resultado').innerHTML = resultadoHTML(total, desg);
 }
 
