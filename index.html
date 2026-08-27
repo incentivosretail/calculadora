@@ -407,7 +407,7 @@ body {
   <div id="ger_resultado"></div>
 </div>
 
-<div class="footer">Calculadora Interna • v6.0 • Ajuste de Tabuladores</div>
+<div class="footer">Calculadora Interna • v6.1 • Ajuste de Tabuladores Gerente</div>
 
 <script>
 function leerNum(id) {
@@ -694,12 +694,12 @@ function calcularGerente() {
   var ct = leerNum('ger_tienda');
   var base = 0;
   if      (ct < 87)  base = 0;
-  else if (ct < 90)  base = 600;
-  else if (ct < 95)  base = 900;
-  else if (ct < 100) base = 1200;
-  else if (ct < 105) base = 1500;
-  else if (ct < 110) base = 2000;
-  else               base = 2400;
+  else if (ct < 90)  base = 900;
+  else if (ct < 95)  base = 1200;
+  else if (ct < 100) base = 1700;
+  else if (ct < 105) base = 2200;
+  else if (ct < 110) base = 2800;
+  else               base = 3400;
 
   var chipT = '';
   if (ct < 87)       chipT = chipHTML('rojo',     '❌ < 87% — Sin incentivo');
