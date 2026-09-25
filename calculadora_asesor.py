@@ -1,17 +1,18 @@
-import streamlit as st
-import os
 import base64
+import os
+import streamlit as st
 
 st.set_page_config(
     page_title="Incentivos Coppel",
     page_icon="🏆",
     layout="centered",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="collapsed",
 )
 
-st.markdown("""
+st.markdown(
+    """
 <style>
-.stApp { background-color: #F0F4FF; font-family: 'Segoe UI', sans-serif; }
+.stApp { background-color: #F8FAFC; font-family: 'Segoe UI', sans-serif; }
 div.block-container { padding-top: 0.5rem !important; padding-bottom: 1rem !important; }
 [data-testid="stSidebar"] { display: none !important; }
 button[data-testid="collapsedControl"] { display: none !important; }
@@ -21,41 +22,41 @@ div[data-testid="stVerticalBlock"] > div { gap: 0.3rem !important; }
 div[data-testid="stExpander"] summary p {
     font-size: 1.05em !important;
     font-weight: bold !important;
-    color: #003DA5 !important;
+    color: #0B2B5C !important;
 }
 div[data-testid="stExpander"] {
-    border-left: 5px solid #003DA5 !important;
+    border-left: 5px solid #0B2B5C !important;
     border-radius: 12px !important;
     background: white !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
     margin-bottom: 8px !important;
 }
 
-.chip-verde    { background-color: #D4EDDA; color: #155724; border-radius: 20px; padding: 3px 10px; font-size: 0.82em; display: inline-block; margin: 2px 0; }
-.chip-rojo     { background-color: #F8D7DA; color: #721C24; border-radius: 20px; padding: 3px 10px; font-size: 0.82em; display: inline-block; margin: 2px 0; }
-.chip-amarillo { background-color: #FFF3CD; color: #856404; border-radius: 20px; padding: 3px 10px; font-size: 0.82em; display: inline-block; margin: 2px 0; }
+.chip-verde    { background-color: #D1FAE5; color: #065F46; border-radius: 20px; padding: 4px 12px; font-size: 0.85em; font-weight: bold; display: inline-block; margin: 2px 0; }
+.chip-rojo     { background-color: #FEE2E2; color: #991B1B; border-radius: 20px; padding: 4px 12px; font-size: 0.85em; font-weight: bold; display: inline-block; margin: 2px 0; }
+.chip-amarillo { background-color: #FEF3C7; color: #92400E; border-radius: 20px; padding: 4px 12px; font-size: 0.85em; font-weight: bold; display: inline-block; margin: 2px 0; }
 
-.metrica-box { background: #E8F0FF; border-radius: 12px; padding: 8px 10px; text-align: center; margin: 4px 0; }
-.metrica-valor { font-size: 1.3em; font-weight: bold; color: #003DA5; }
-.metrica-etiqueta { font-size: 0.75em; color: #555; }
+.metrica-box { background: #EBF3FC; border-radius: 12px; padding: 8px 10px; text-align: center; margin: 4px 0; }
+.metrica-valor { font-size: 1.3em; font-weight: bold; color: #0B2B5C; }
+.metrica-etiqueta { font-size: 0.75em; color: #475569; }
 
 .resultado-card {
-    background: linear-gradient(135deg, #003DA5, #0056D6);
+    background: linear-gradient(135deg, #0B2B5C, #1058B0);
     border-radius: 16px; padding: 20px; text-align: center;
-    color: white; margin-top: 12px; box-shadow: 0 6px 20px rgba(0,61,165,0.4);
+    color: white; margin-top: 12px; box-shadow: 0 6px 20px rgba(11,43,92,0.3);
 }
-.resultado-total { font-size: 2.4em; font-weight: bold; color: #FFD100; }
+.resultado-total { font-size: 2.5em; font-weight: bold; color: #FFD100; }
 .resultado-label { font-size: 0.95em; color: white; margin-bottom: 6px; }
 
-.divider-azul { border: none; border-top: 1.5px solid #003DA5; opacity: 0.2; margin: 6px 0 8px 0; }
+.divider-azul { border: none; border-top: 1.5px solid #CBD5E1; opacity: 0.5; margin: 6px 0 8px 0; }
 
 .stSelectbox > div > div {
-    border: 2px solid #003DA5 !important;
+    border: 2px solid #0B2B5C !important;
     border-radius: 12px !important;
 }
 
 .stTextInput > div > div > input {
-    border: 2px solid #003DA5 !important;
+    border: 2px solid #0B2B5C !important;
     border-radius: 10px !important;
     font-size: 1.05em !important;
     padding: 8px 12px !important;
@@ -63,7 +64,10 @@ div[data-testid="stExpander"] {
 
 #MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
+
 
 def leer_porcentaje(label, placeholder, key):
     val = st.text_input(label, placeholder=placeholder, key=key)
@@ -71,35 +75,79 @@ def leer_porcentaje(label, placeholder, key):
         resultado = float(val.replace(",", ".")) if val else 0.0
         return max(0.0, min(200.0, resultado))
     except:
-        st.markdown("<span class='chip-rojo'>⚠️ Ingresa un numero valido</span>", unsafe_allow_html=True)
+        st.markdown(
+            "<span class='chip-rojo'>⚠️ Número no válido</span>",
+            unsafe_allow_html=True,
+        )
         return 0.0
+
 
 def leer_monto(label, placeholder, key):
     val = st.text_input(label, placeholder=placeholder, key=key)
     try:
-        resultado = float(val.replace(",", "").replace("$", "")) if val else 0.0
+        resultado = (
+            float(val.replace(",", "").replace("$", "")) if val else 0.0
+        )
         return max(0.0, resultado)
     except:
-        st.markdown("<span class='chip-rojo'>⚠️ Ingresa un monto valido</span>", unsafe_allow_html=True)
+        st.markdown(
+            "<span class='chip-rojo'>⚠️ Monto no válido</span>",
+            unsafe_allow_html=True,
+        )
         return 0.0
 
+
+def leer_unidades(label, placeholder, key):
+    val = st.text_input(label, placeholder=placeholder, key=key)
+    try:
+        resultado = (
+            int(val.replace(",", "").replace(".", "")) if val else 0
+        )
+        return max(0, resultado)
+    except:
+        st.markdown(
+            "<span class='chip-rojo'>⚠️ Cantidad no válida</span>",
+            unsafe_allow_html=True,
+        )
+        return 0
+
+
 def chip(tipo, texto):
-    st.markdown("<span class='chip-" + tipo + "'>" + texto + "</span>", unsafe_allow_html=True)
+    st.markdown(
+        "<span class='chip-" + tipo + "'>" + texto + "</span>",
+        unsafe_allow_html=True,
+    )
+
 
 def metrica(etiqueta, valor):
-    html = "<div class='metrica-box'><div class='metrica-etiqueta'>" + etiqueta + "</div><div class='metrica-valor'>" + valor + "</div></div>"
+    html = (
+        "<div class='metrica-box'><div class='metrica-etiqueta'>"
+        + etiqueta
+        + "</div><div class='metrica-valor'>"
+        + valor
+        + "</div></div>"
+    )
     st.markdown(html, unsafe_allow_html=True)
+
 
 def resultado_final(total, desglose):
     html = "<div class='resultado-card'>"
     html += "<div class='resultado-label'>🏆 TU INCENTIVO TOTAL DEL MES</div>"
-    html += "<div class='resultado-total'>$" + "{:,.2f}".format(total) + "</div>"
-    html += "<br><div style='font-size:0.82em;color:#cce0ff;'>" + desglose + "</div>"
+    html += (
+        "<div class='resultado-total'>$" + "{:,.2f}".format(total) + " MXN</div>"
+    )
+    html += (
+        "<br><div style='font-size:0.85em;color:#EBF3FC;'>"
+        + desglose
+        + "</div>"
+    )
     html += "</div>"
     st.markdown(html, unsafe_allow_html=True)
 
+
 def divider():
     st.markdown("<hr class='divider-azul'>", unsafe_allow_html=True)
+
 
 def header_azul(titulo, subtitulo):
     if os.path.exists("logo_coppel.png"):
@@ -107,255 +155,329 @@ def header_azul(titulo, subtitulo):
             logo_b64 = base64.b64encode(f.read()).decode()
         st.markdown(
             "<div style='text-align:center;margin-bottom:0px;padding:6px 0px 0px 0px;'>"
-            "<img src='data:image/png;base64," + logo_b64 + "' style='height:110px;'>"
+            "<img src='data:image/png;base64,"
+            + logo_b64
+            + "' style='height:100px;'>"
             "</div>",
-            unsafe_allow_html=True)
-    html = "<div style='background:linear-gradient(135deg,#003DA5,#0056D6);"
+            unsafe_allow_html=True,
+        )
+    html = (
+        "<div style='background:linear-gradient(135deg,#0B2B5C,#1058B0);"
+    )
     html += "padding:16px 20px;border-radius:16px;text-align:center;"
-    html += "margin-bottom:12px;margin-top:4px;box-shadow:0 4px 12px rgba(0,61,165,0.3);'>"
-    html += "<span style='font-size:1.4em;font-weight:bold;color:#FFD100;'>" + titulo + "</span><br>"
-    html += "<span style='color:white;font-size:0.9em;'>" + subtitulo + "</span>"
+    html += "margin-bottom:12px;margin-top:4px;box-shadow:0 4px 12px rgba(11,43,92,0.25);'>"
+    html += (
+        "<span style='font-size:1.4em;font-weight:bold;color:#FFD100;'>"
+        + titulo
+        + "</span><br>"
+    )
+    html += (
+        "<span style='color:white;font-size:0.9em;'>" + subtitulo + "</span>"
+    )
     html += "</div>"
     st.markdown(html, unsafe_allow_html=True)
 
-def incentivo_base_asesor(cump):
-    if cump < 80:    return 0
-    elif cump < 90:  return 550
-    elif cump < 95:  return 800
-    elif cump < 100: return 1000
-    elif cump < 110: return 1300
-    elif cump < 120: return 1600
-    else:            return 1900
 
-def seccion_comisiones_asesor(cump_equipo, prefix):
-    pct_s, pct_m = (0.04, 0.006) if cump_equipo >= 100 else (0.015, 0.004)
-    if cump_equipo >= 100:
-        chip("verde", "✅ Tasas Cump >= 100%: Seguros 4% | Marketplace 0.6%")
+# ==============================================================================
+# TABULADORES PILAR 1 POR PUESTO
+# ==============================================================================
+def inc_base_asesor_ventas(cump):
+    if cump < 85:
+        return 0
+    elif cump < 90:
+        return 250
+    elif cump < 95:
+        return 500
+    elif cump < 100:
+        return 850
+    elif cump < 110:
+        return 1300
+    elif cump < 120:
+        return 1650
     else:
-        chip("amarillo", "⚠️ Tasas Cump < 100%: Seguros 1.5% | Marketplace 0.4%")
+        return 2000
+
+
+def inc_base_telefonia(cump):
+    if cump < 90:
+        return 0
+    elif cump < 95:
+        return 900
+    elif cump < 100:
+        return 1100
+    elif cump < 110:
+        return 1450
+    elif cump < 120:
+        return 1750
+    else:
+        return 2100
+
+
+def inc_base_optometrista(cump, venta_monto):
+    if venta_monto < 45000:
+        return 0
+    if cump < 80:
+        return 0
+    elif cump < 90:
+        return 500
+    elif cump < 95:
+        return 900
+    elif cump < 100:
+        return 1200
+    elif cump < 110:
+        return 1600
+    elif cump < 120:
+        return 1900
+    else:
+        return 2300
+
+
+# ==============================================================================
+# PILAR 2: VENTA GRUPAL (INDICADORES DE TIENDA - MONTOS FIJOS)
+# ==============================================================================
+def pilar2_venta_grupal(prefix):
+    st.markdown("**Indicadores de Tienda (Incentivos Adicionales Fijos)**")
+    cump_credito = leer_porcentaje(
+        "% Cumplimiento Venta a Crédito Tienda", "Ej: 96.0", prefix + "_credito"
+    )
+    cump_digital = leer_porcentaje(
+        "% Cumplimiento 1ª Compra Canal Digital",
+        "Ej: 103.0",
+        prefix + "_digital",
+    )
+    cump_tienda = leer_porcentaje(
+        "% Cumplimiento Venta Total Tienda", "Ej: 100.0", prefix + "_tienda"
+    )
+
+    inc_credito = 150.0 if cump_credito >= 90 else 0.0
+    inc_digital = 150.0 if cump_digital >= 90 else 0.0
+    inc_tienda = 300.0 if cump_tienda >= 100 else 0.0
+
+    if inc_credito > 0:
+        chip("verde", "✅ Crédito Tienda ≥ 90% → +$150")
+    else:
+        chip("rojo", "❌ Crédito Tienda < 90% → +$0")
+
+    if inc_digital > 0:
+        chip("verde", "✅ 1ª Compra Digital ≥ 90% → +$150")
+    else:
+        chip("rojo", "❌ 1ª Compra Digital < 90% → +$0")
+
+    if inc_tienda > 0:
+        chip("verde", "✅ Venta Tienda ≥ 100% → +$300")
+    else:
+        chip("rojo", "❌ Venta Tienda < 100% → +$0")
+
+    total_pilar2 = inc_credito + inc_digital + inc_tienda
+    metrica(
+        "🤝 Total Pilar 2 (Venta Grupal)", "$" + "{:,.2f}".format(total_pilar2)
+    )
+    return total_pilar2
+
+
+# ==============================================================================
+# PILAR 3: COMISIÓN INDIVIDUAL (MONTO FIJO POR UNIDAD VENDIDA)
+# ==============================================================================
+def pilar3_comision_unidades(cump_equipo, umbral_min, prefix):
+    if cump_equipo < umbral_min:
+        chip(
+            "rojo",
+            f"❌ Cump. Equipo < {umbral_min}% — No habilita comisiones del Pilar 3",
+        )
+        return 0.0
+
+    es_top = cump_equipo >= 100
+    if es_top:
+        chip("verde", "✅ Cump. Equipo ≥ 100% → Tasas Máximas Activas")
+        m_club, m_mrc, m_mplus, m_cel, m_gex, m_arm, m_inst = (
+            3.0,
+            40.0,
+            90.0,
+            10.0,
+            30.0,
+            15.0,
+            70.0,
+        )
+    else:
+        chip(
+            "amarillo",
+            f"⚠️ Cump. Equipo ≥ {umbral_min}% → Tasas Básicas Activas",
+        )
+        m_club, m_mrc, m_mplus, m_cel, m_gex, m_arm, m_inst = (
+            1.5,
+            25.0,
+            50.0,
+            5.0,
+            15.0,
+            10.0,
+            40.0,
+        )
+
     divider()
-    st.markdown("**Seguros y Coppel Soluciones**")
-    v_club  = leer_monto("🛡️ Seguros Club de Proteccion ($)",  "Ej: 5000", prefix+"_club")
-    v_mrc   = leer_monto("🏍️ Seguros Motos RC ($)",            "Ej: 3000", prefix+"_mrc")
-    v_mplus = leer_monto("🏍️ Seguros Motos PLUS ($)",          "Ej: 3000", prefix+"_mplus")
-    v_cel   = leer_monto("📱 Seguros Celulares ($)",            "Ej: 2000", prefix+"_cel")
-    v_gar   = leer_monto("🔧 Garantia Extendida ($)",           "Ej: 1500", prefix+"_gar")
-    v_arm   = leer_monto("🔩 Servicio de Armado ($)",           "Ej: 800",  prefix+"_arm")
-    v_inst  = leer_monto("🔌 Servicio de Instalacion ($)",      "Ej: 600",  prefix+"_inst")
-    divider()
-    st.markdown("**Marketplace y Campañas**")
-    v_market = leer_monto("🛒 Venta Marketplace (3P) y Campañas ($)", "Ej: 10000", prefix+"_market")
-    total_seguros  = (v_club + v_mrc + v_mplus + v_cel + v_gar + v_arm + v_inst) * pct_s
-    total_market   = v_market * pct_m
-    total_comision = total_seguros + total_market
-    col1, col2, col3 = st.columns(3)
-    with col1: metrica("🛡️ Seguros",    "$" + "{:,.2f}".format(total_seguros))
-    with col2: metrica("🛒 Marketplace", "$" + "{:,.2f}".format(total_market))
-    with col3: metrica("📊 Total",       "$" + "{:,.2f}".format(total_comision))
+    st.markdown("**Ingresa el número de servicios/seguros vendidos:**")
+
+    q_gex = leer_unidades(
+        "🔧 Garantía Extendida GEX (Cantidad)", "Ej: 45", prefix + "_gex"
+    )
+    q_arm = leer_unidades(
+        "🔩 Servicio de Armado (Cantidad)", "Ej: 8", prefix + "_arm"
+    )
+    q_inst = leer_unidades(
+        "🔌 Servicio de Instalaciones (Cantidad)", "Ej: 2", prefix + "_inst"
+    )
+    q_club = leer_unidades(
+        "🛡️ Club de Protección (Cantidad)", "Ej: 40", prefix + "_club"
+    )
+    q_mrc = leer_unidades(
+        "🏍️ Seguro Motos RC (Cantidad)", "Ej: 20", prefix + "_mrc"
+    )
+    q_mplus = leer_unidades(
+        "🏍️ Seguro Motos Plus (Cantidad)", "Ej: 5", prefix + "_mplus"
+    )
+    q_cel = leer_unidades(
+        "📱 Seguro Celulares (Cantidad)", "Ej: 52", prefix + "_cel"
+    )
+
+    t_gex = q_gex * m_gex
+    t_arm = q_arm * m_arm
+    t_inst = q_inst * m_inst
+    t_club = q_club * m_club
+    t_mrc = q_mrc * m_mrc
+    t_mplus = q_mplus * m_mplus
+    t_cel = q_cel * m_cel
+
+    total_comision = t_gex + t_arm + t_inst + t_club + t_mrc + t_mplus + t_cel
+
+    col1, col2 = st.columns(2)
+    with col1:
+        metrica(
+            "🔧 Servicios (GEX/Arm/Inst)",
+            "$" + "{:,.2f}".format(t_gex + t_arm + t_inst),
+        )
+    with col2:
+        metrica(
+            "🛡️ Seguros (Club/Motos/Cel)",
+            "$" + "{:,.2f}".format(t_club + t_mrc + t_mplus + t_cel),
+        )
+
+    metrica(
+        "💼 Total Comisiones Pilar 3", "$" + "{:,.2f}".format(total_comision)
+    )
     return total_comision
 
-header_azul("🏆 Incentivos Coppel", "Selecciona tu puesto para calcular tu incentivo")
 
-puesto = st.selectbox("👤 ¿Cual es tu puesto?", options=[
-    "🎯 Asesor de Ventas",
-    "📱 Asesor Telefonia",
-    "👁️ Optometrista",
-    "⚙️ Operativos",
-    "💰 Cajero Multifuncional",
-    "👔 Gerente Titular",
-])
+# ==============================================================================
+# INTERFAZ PRINCIPAL
+# ==============================================================================
+header_azul(
+    "🏆 Incentivos Coppel 2026", "Calculadora Operativa para Tiendas Piloto"
+)
+
+puesto = st.selectbox(
+    "👤 Selecciona tu puesto:",
+    options=[
+        "🎯 Asesor de Ventas",
+        "📱 Asesor de Telefonía",
+        "👁️ Optometrista",
+    ],
+)
 divider()
 
-def pantalla_asesor(titulo, prefix):
-    header_azul("🏆 Calculadora de Incentivos", titulo + " — Coppel")
-    with st.expander("🤝 Paso 1 — Venta de Equipo", expanded=True):
-        cump_equipo = leer_porcentaje("% Cumplimiento meta del equipo", "Ej: 95.5", prefix+"_equipo")
-        incentivo_base = incentivo_base_asesor(cump_equipo)
-        if cump_equipo < 80:    chip("rojo",     "❌ < 80% — Sin incentivo base")
-        elif cump_equipo < 100: chip("amarillo", "⚠️ Cumplimiento parcial")
-        else:                   chip("verde",    "✅ Meta alcanzada")
-        metrica("💰 Incentivo Base", "$" + "{:,.2f}".format(incentivo_base))
-    with st.expander("✖️ Paso 2 — Multiplicadores", expanded=True):
-        cump_credito = leer_porcentaje("% Cumplimiento Venta a Credito", "Ej: 92.0", prefix+"_credito")
-        cump_digital = leer_porcentaje("% Cumplimiento Cliente Digital Avanzado", "Ej: 93.0", prefix+"_digital")
-        multiplicador = 1.0
-        if cump_credito >= 90:
-            multiplicador += 0.20
-            chip("verde", "✅ Venta a Credito >= 90% → +0.20")
+# ------------------------------------------------------------------------------
+# PANTALLA: ASESOR DE VENTAS
+# ------------------------------------------------------------------------------
+if puesto == "🎯 Asesor de Ventas":
+    header_azul("🎯 Asesor de Ventas", "Esquema de 3 Pilares")
+
+    with st.expander("🤝 Pilar 1 — Venta de Equipo", expanded=True):
+        cump_eq = leer_porcentaje(
+            "% Cumplimiento Meta del Equipo", "Ej: 103.0", "av_eq"
+        )
+        inc_p1 = inc_base_asesor_ventas(cump_eq)
+        if cump_eq < 85:
+            chip("rojo", "❌ < 85% — Sin incentivo base")
+        elif cump_eq < 100:
+            chip("amarillo", "⚠️ Cumplimiento parcial (85%-99%)")
         else:
-            chip("rojo", "❌ Venta a Credito < 90% → +0.00")
-        if cump_digital >= 90:
-            multiplicador += 0.15
-            chip("verde", "✅ Cliente Digital >= 90% → +0.15")
-        else:
-            chip("rojo", "❌ Cliente Digital < 90% → +0.00")
-        incentivo_con_mult = incentivo_base * multiplicador
-        col1, col2 = st.columns(2)
-        with col1: metrica("✖️ Multiplicador",     "x" + "{:.2f}".format(multiplicador))
-        with col2: metrica("💰 Con Multiplicador", "$" + "{:,.2f}".format(incentivo_con_mult))
-    with st.expander("💼 Paso 3 — Comisiones por Tipo de Venta", expanded=True):
-        total_comisiones = seccion_comisiones_asesor(cump_equipo, prefix)
-    with st.expander("🏪 Paso 4 — Bono por Venta de Tienda", expanded=True):
-        cump_tienda = leer_porcentaje("% Cumplimiento meta de la tienda", "Ej: 102.0", prefix+"_tienda")
-        bono_tienda = 0.20 if cump_tienda >= 100 else 0.0
-        if cump_tienda >= 100: chip("verde", "✅ Tienda >= 100% — Bono del 20%")
-        else:                  chip("rojo",  "❌ Tienda < 100% — Sin bono")
-    subtotal    = incentivo_con_mult + total_comisiones
-    bono_extra  = subtotal * bono_tienda
-    total_final = subtotal + bono_extra
-    desglose  = "Base: $" + "{:,.2f}".format(incentivo_base)
-    desglose += " | x" + "{:.2f}".format(multiplicador) + " = $" + "{:,.2f}".format(incentivo_con_mult)
-    desglose += "<br>Comisiones: $" + "{:,.2f}".format(total_comisiones)
-    desglose += " | Bono Tienda: $" + "{:,.2f}".format(bono_extra)
+            chip("verde", "✅ Meta alcanzada (≥ 100%)")
+        metrica("💰 Incentivo Base Pilar 1", "$" + "{:,.2f}".format(inc_p1))
+
+    with st.expander("🏪 Pilar 2 — Venta Grupal", expanded=True):
+        inc_p2 = pilar2_venta_grupal("av")
+
+    with st.expander("💼 Pilar 3 — Comisión Individual", expanded=True):
+        inc_p3 = pilar3_comision_unidades(cump_eq, 85, "av")
+
+    total_final = inc_p1 + inc_p2 + inc_p3
+    desglose = f"Pilar 1 (Equipo): ${inc_p1:,.2f} | Pilar 2 (Grupal): ${inc_p2:,.2f} | Pilar 3 (Comisiones): ${inc_p3:,.2f}"
     resultado_final(total_final, desglose)
 
-if   puesto == "🎯 Asesor de Ventas": pantalla_asesor("Asesor de Ventas", "av")
-elif puesto == "📱 Asesor Telefonia": pantalla_asesor("Asesor Telefonia",  "at")
-elif puesto == "👁️ Optometrista":     pantalla_asesor("Optometrista",      "opt")
+# ------------------------------------------------------------------------------
+# PANTALLA: ASESOR DE TELEFONÍA
+# ------------------------------------------------------------------------------
+elif puesto == "📱 Asesor de Telefonía":
+    header_azul("📱 Asesor de Telefonía", "Esquema de 3 Pilares")
 
-elif puesto == "⚙️ Operativos":
-    header_azul("🏆 Calculadora de Incentivos", "Operativos — Coppel")
-    with st.expander("🏪 Paso 1 — Venta de Tienda", expanded=True):
-        cump_tienda = leer_porcentaje("% Cumplimiento meta de la tienda", "Ej: 95.5", "ope_tienda")
-        def incentivo_operativo(c):
-            if c < 89:    return 0
-            elif c < 95:  return 200
-            elif c < 100: return 350
-            elif c < 110: return 650
-            else:         return 1000
-        incentivo_base = incentivo_operativo(cump_tienda)
-        if cump_tienda < 89:    chip("rojo",     "❌ < 89% — Sin incentivo base")
-        elif cump_tienda < 100: chip("amarillo", "⚠️ Cumplimiento parcial")
-        else:                   chip("verde",    "✅ Meta alcanzada")
-        metrica("💰 Incentivo Base", "$" + "{:,.2f}".format(incentivo_base))
-    with st.expander("💼 Paso 2 — Comisiones por Tipo de Venta", expanded=True):
-        pct_s, pct_m = (0.04, 0.006) if cump_tienda >= 100 else (0.015, 0.004)
-        if cump_tienda >= 100: chip("verde",    "✅ Tasas Cump >= 100%: 4% | Marketplace 0.6%")
-        else:                  chip("amarillo", "⚠️ Tasas Cump < 100%: 1.5% | Marketplace 0.4%")
-        divider()
-        st.markdown("**Seguros y Coppel Soluciones**")
-        v_club  = leer_monto("🛡️ Seguros Club de Proteccion ($)",  "Ej: 5000", "ope_club")
-        v_mrc   = leer_monto("🏍️ Seguros Motos RC ($)",            "Ej: 3000", "ope_mrc")
-        v_mplus = leer_monto("🏍️ Seguros Motos PLUS ($)",          "Ej: 3000", "ope_mplus")
-        v_cel   = leer_monto("📱 Seguros Celulares ($)",            "Ej: 2000", "ope_cel")
-        v_gar   = leer_monto("🔧 Garantia Extendida ($)",           "Ej: 1500", "ope_gar")
-        v_arm   = leer_monto("🔩 Servicio de Armado ($)",           "Ej: 800",  "ope_arm")
-        v_inst  = leer_monto("🔌 Servicio de Instalacion ($)",      "Ej: 600",  "ope_inst")
-        divider()
-        st.markdown("**Marketplace y Campañas**")
-        v_market = leer_monto("🛒 Venta Marketplace (3P) y Campañas ($)", "Ej: 10000", "ope_market")
-        total_seguros  = (v_club + v_mrc + v_mplus + v_cel + v_gar + v_arm + v_inst) * pct_s
-        total_market   = v_market * pct_m
-        total_comision = total_seguros + total_market
-        col1, col2, col3 = st.columns(3)
-        with col1: metrica("🛡️ Seguros",    "$" + "{:,.2f}".format(total_seguros))
-        with col2: metrica("🛒 Marketplace", "$" + "{:,.2f}".format(total_market))
-        with col3: metrica("📊 Total",       "$" + "{:,.2f}".format(total_comision))
-    desglose = "Base: $" + "{:,.2f}".format(incentivo_base) + " | Comisiones: $" + "{:,.2f}".format(total_comision)
-    resultado_final(incentivo_base + total_comision, desglose)
-
-elif puesto == "💰 Cajero Multifuncional":
-    header_azul("🏆 Calculadora de Incentivos", "Cajero Multifuncional — Coppel")
-    with st.expander("💳 Paso 1 — Cobranza", expanded=True):
-        cump_cobranza = leer_porcentaje("% Cumplimiento meta de cobranza", "Ej: 92.0", "caj_cobranza")
-        def incentivo_cajero(c):
-            if c < 89:    return 0
-            elif c < 95:  return 200
-            elif c < 100: return 350
-            elif c < 110: return 650
-            else:         return 1000
-        incentivo_base = incentivo_cajero(cump_cobranza)
-        if cump_cobranza < 89:    chip("rojo",     "❌ < 89% — Sin incentivo base")
-        elif cump_cobranza < 100: chip("amarillo", "⚠️ Cumplimiento parcial")
-        else:                     chip("verde",    "✅ Meta alcanzada")
-        metrica("💰 Incentivo Base", "$" + "{:,.2f}".format(incentivo_base))
-    with st.expander("✖️ Paso 2 — Multiplicadores", expanded=True):
-        cump_credito      = leer_porcentaje("% Cumplimiento Venta a Credito",  "Ej: 65.0", "caj_credito")
-        cump_venta_centro = leer_porcentaje("% Cumplimiento Venta del Centro", "Ej: 101.0", "caj_centro")
-        multiplicador = 1.0
-        if cump_credito >= 60:
-            multiplicador += 0.15
-            chip("verde", "✅ Venta a Credito >= 60% → +0.15")
+    with st.expander("🤝 Pilar 1 — Venta de Equipo (Telefonía)", expanded=True):
+        cump_eq = leer_porcentaje(
+            "% Cumplimiento Meta de Telefonía", "Ej: 106.0", "at_eq"
+        )
+        inc_p1 = inc_base_telefonia(cump_eq)
+        if cump_eq < 90:
+            chip("rojo", "❌ < 90% — Sin incentivo base")
+        elif cump_eq < 100:
+            chip("amarillo", "⚠️ Cumplimiento parcial (90%-99%)")
         else:
-            chip("rojo", "❌ Venta a Credito < 60% → +0.00")
-        if cump_venta_centro >= 100:
-            multiplicador += 0.15
-            chip("verde", "✅ Venta Centro >= 100% → +0.15")
-        else:
-            chip("rojo", "❌ Venta Centro < 100% → +0.00")
-        incentivo_con_mult = incentivo_base * multiplicador
-        col1, col2 = st.columns(2)
-        with col1: metrica("✖️ Multiplicador",     "x" + "{:.2f}".format(multiplicador))
-        with col2: metrica("💰 Con Multiplicador", "$" + "{:,.2f}".format(incentivo_con_mult))
-    with st.expander("💼 Paso 3 — Comisiones por Servicios", expanded=True):
-        pct_s = 0.04 if cump_venta_centro >= 100 else 0.015
-        if cump_venta_centro >= 100: chip("verde",    "✅ Tasas Cump >= 100%: 4%")
-        else:                        chip("amarillo", "⚠️ Tasas Cump < 100%: 1.5%")
-        divider()
-        v_seguros  = leer_monto("🛡️ Seguros ($)",  "Ej: 5000", "caj_seguros")
-        v_posventa = leer_monto("🔧 Posventa ($)", "Ej: 3000", "caj_posventa")
-        total_comision = (v_seguros + v_posventa) * pct_s
-        col1, col2 = st.columns(2)
-        with col1: metrica("🛡️ Seguros",  "$" + "{:,.2f}".format(v_seguros  * pct_s))
-        with col2: metrica("🔧 Posventa", "$" + "{:,.2f}".format(v_posventa * pct_s))
-        metrica("📊 Total Comisiones", "$" + "{:,.2f}".format(total_comision))
-    desglose  = "Base: $" + "{:,.2f}".format(incentivo_base)
-    desglose += " | x" + "{:.2f}".format(multiplicador) + " = $" + "{:,.2f}".format(incentivo_con_mult)
-    desglose += "<br>Comisiones: $" + "{:,.2f}".format(total_comision)
-    resultado_final(incentivo_con_mult + total_comision, desglose)
+            chip("verde", "✅ Meta alcanzada (≥ 100%)")
+        metrica("💰 Incentivo Base Pilar 1", "$" + "{:,.2f}".format(inc_p1))
 
-elif puesto == "👔 Gerente Titular":
-    header_azul("🏆 Calculadora de Incentivos", "Gerente Titular — Coppel")
-    with st.expander("⚠️ Requisito — Cumplimiento Minimo de Tienda", expanded=True):
-        cump_tienda = leer_porcentaje("% Cumplimiento meta de venta de la tienda", "Ej: 95.0", "ger_tienda")
-        if cump_tienda < 89: chip("rojo",  "❌ < 89% — No se genera incentivo en ningun rubro")
-        else:                chip("verde", "✅ Requisito minimo cumplido (>= 89%)")
-    if cump_tienda >= 89:
-        with st.expander("📊 Paso 1 — Productividad (Venta Tienda)", expanded=True):
-            def incentivo_gerente(c):
-                if c < 95:    return 0
-                elif c < 100: return 2000
-                elif c < 105: return 3000
-                elif c < 110: return 4200
-                else:         return 6000
-            incentivo_base = incentivo_gerente(cump_tienda)
-            if cump_tienda < 95:    chip("amarillo", "⚠️ < 95% — Sin incentivo de productividad")
-            elif cump_tienda < 100: chip("amarillo", "⚠️ Cumplimiento parcial")
-            else:                   chip("verde",    "✅ Meta alcanzada")
-            metrica("💰 Incentivo Base", "$" + "{:,.2f}".format(incentivo_base))
-        with st.expander("📋 Paso 2 — Evaluacion Objetiva", expanded=True):
-            eval_obj = leer_porcentaje("% Resultado de Evaluacion Objetiva", "Ej: 97.0", "ger_eval")
-            def mult_eval_fn(e):
-                if e >= 98:   return 1.7
-                elif e >= 96: return 1.5
-                elif e >= 90: return 1.2
-                else:         return 1.0
-            mult_eval = mult_eval_fn(eval_obj)
-            if mult_eval == 1.7:   chip("verde",    "✅ 98-100% → x1.70")
-            elif mult_eval == 1.5: chip("verde",    "✅ 96-97%  → x1.50")
-            elif mult_eval == 1.2: chip("amarillo", "⚠️ 90-95%  → x1.20")
-            else:                  chip("rojo",     "❌ 0-89%   → x1.00")
-            metrica("✖️ Multiplicador Evaluacion", "x" + "{:.2f}".format(mult_eval))
-        with st.expander("📦 Paso 3 — Faltante de Tienda", expanded=True):
-            pct_faltante = leer_porcentaje("% Faltante de tienda", "Ej: 0.8", "ger_faltante")
-            def mult_falt_fn(f):
-                if f < 1:      return 1.20
-                elif f <= 1.5: return 1.10
-                elif f <= 2:   return 1.00
-                else:          return 0.80
-            mult_falt = mult_falt_fn(pct_faltante)
-            if mult_falt == 1.20:   chip("verde",    "✅ < 1%     → x1.20")
-            elif mult_falt == 1.10: chip("verde",    "✅ 1%-1.5%  → x1.10")
-            elif mult_falt == 1.00: chip("amarillo", "⚠️ 1.5%-2%  → x1.00")
-            else:                   chip("rojo",     "❌ > 2%     → x0.80")
-            metrica("✖️ Multiplicador Faltante", "x" + "{:.2f}".format(mult_falt))
-        total_final = incentivo_base * mult_eval * mult_falt
-        desglose  = "Base: $" + "{:,.2f}".format(incentivo_base)
-        desglose += " | xEval " + "{:.2f}".format(mult_eval)
-        desglose += " | xFaltante " + "{:.2f}".format(mult_falt)
-        resultado_final(total_final, desglose)
-    else:
-        resultado_final(0, "Cumplimiento minimo no alcanzado (89%)")
+    with st.expander("🏪 Pilar 2 — Venta Grupal", expanded=True):
+        inc_p2 = pilar2_venta_grupal("at")
+
+    with st.expander("💼 Pilar 3 — Comisión Individual", expanded=True):
+        inc_p3 = pilar3_comision_unidades(cump_eq, 90, "at")
+
+    total_final = inc_p1 + inc_p2 + inc_p3
+    desglose = f"Pilar 1 (Telefonía): ${inc_p1:,.2f} | Pilar 2 (Grupal): ${inc_p2:,.2f} | Pilar 3 (Comisiones): ${inc_p3:,.2f}"
+    resultado_final(total_final, desglose)
+
+# ------------------------------------------------------------------------------
+# PANTALLA: OPTOMETRISTA
+# ------------------------------------------------------------------------------
+elif puesto == "👁️ Optometrista":
+    header_azul("👁️ Optometrista", "Esquema de 3 Pilares")
+
+    with st.expander("🤝 Pilar 1 — Venta de Óptica", expanded=True):
+        v_monto = leer_monto(
+            "Venta Total de Óptica en el Mes ($)", "Ej: 146100", "opt_monto"
+        )
+        cump_eq = leer_porcentaje(
+            "% Cumplimiento Meta de Óptica", "Ej: 100.0", "opt_eq"
+        )
+
+        if v_monto <= 45000:
+            chip("rojo", "❌ Venta de Óptica ≤ $45,000 — Sin incentivo base")
+        elif cump_eq < 80:
+            chip("rojo", "❌ < 80% Cumplimiento — Sin incentivo base")
+        elif cump_eq < 100:
+            chip("amarillo", "⚠️ Cumplimiento parcial (80%-99%)")
+        else:
+            chip("verde", "✅ Meta y Requisito alcanzados (≥ 100%)")
+
+        inc_p1 = inc_base_optometrista(cump_eq, v_monto)
+        metrica("💰 Incentivo Base Pilar 1", "$" + "{:,.2f}".format(inc_p1))
+
+    with st.expander("🏪 Pilar 2 — Venta Grupal", expanded=True):
+        inc_p2 = pilar2_venta_grupal("opt")
+
+    with st.expander("💼 Pilar 3 — Comisión Individual", expanded=True):
+        inc_p3 = pilar3_comision_unidades(cump_eq, 80, "opt")
+
+    total_final = inc_p1 + inc_p2 + inc_p3
+    desglose = f"Pilar 1 (Óptica): ${inc_p1:,.2f} | Pilar 2 (Grupal): ${inc_p2:,.2f} | Pilar 3 (Comisiones): ${inc_p3:,.2f}"
+    resultado_final(total_final, desglose)
 
 st.markdown("<br>", unsafe_allow_html=True)
-st.caption("Calculadora Interna Coppel - v1.0 - Solo para uso interno")
+st.caption(
+    "Calculadora Interna Coppel - Versión Ajustada Octubre 2026 - Equipos Enfocados 2.0"
+)
