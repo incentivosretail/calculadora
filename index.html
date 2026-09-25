@@ -1,751 +1,289 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script type="text/javascript">
-(function(c,l,a,r,i,t,y){
-c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "wnznkro19i");
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Incentivos Retail</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  background-color: #F0F4FF;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 12px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-.header {
-  background: linear-gradient(135deg, #003DA5, #0056D6);
-  padding: 16px 20px; border-radius: 16px; text-align: center;
-  margin: 6px 0 12px 0; box-shadow: 0 4px 12px rgba(0,61,165,0.3);
-}
-.header h1 { font-size: 1.3em; color: #FFD100; margin: 0; }
-.header p { color: white; font-size: 0.88em; margin: 4px 0 0 0; }
-.selector-container { margin-bottom: 12px; }
-.selector-container label { font-weight: bold; color: #003DA5; font-size: 0.95em; }
-.selector-container select {
-  width: 100%; padding: 10px 14px; border: 2px solid #003DA5;
-  border-radius: 12px; font-size: 1em; background: white; color: #333; margin-top: 4px;
-}
-.divider { border: none; border-top: 1.5px solid #003DA5; opacity: 0.2; margin: 8px 0; }
-.card {
-  background: white; border-radius: 12px; padding: 14px 16px;
-  margin-bottom: 10px; border-left: 5px solid #003DA5;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-.card-titulo { font-size: 1.02em; font-weight: bold; color: #003DA5; margin-bottom: 4px; }
-.input-group { margin-bottom: 10px; }
-.input-group label { font-size: 0.88em; color: #444; display: block; margin-bottom: 3px; }
-.input-group input {
-  width: 100%; padding: 9px 12px; border: 2px solid #003DA5;
-  border-radius: 10px; font-size: 1.05em; background: white; color: #333;
-}
-.input-group input:focus { outline: none; border-color: #FFD100; box-shadow: 0 0 0 3px rgba(255,209,0,0.3); }
-.input-group input::placeholder { color: #aaa; }
-.subtitulo { font-weight: bold; color: #003DA5; font-size: 0.9em; margin: 8px 0 6px 0; }
-.chip {
-  display: inline-block; padding: 3px 10px; border-radius: 20px;
-  font-size: 0.82em; margin: 3px 0;
-}
-.chip-verde { background-color: #D4EDDA; color: #155724; }
-.chip-rojo { background-color: #F8D7DA; color: #721C24; }
-.chip-amarillo { background-color: #FFF3CD; color: #856404; }
-.metricas-row { display: flex; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
-.metrica {
-  background: #E8F0FF; border-radius: 12px; padding: 8px 10px;
-  text-align: center; flex: 1; min-width: 80px;
-}
-.metrica-valor { font-size: 1.2em; font-weight: bold; color: #003DA5; }
-.metrica-etiqueta { font-size: 0.72em; color: #555; }
-.resultado {
-  background: linear-gradient(135deg, #003DA5, #0056D6);
-  border-radius: 16px; padding: 20px; text-align: center;
-  color: white; margin-top: 12px; box-shadow: 0 6px 20px rgba(0,61,165,0.4);
-}
-.resultado-label { font-size: 0.95em; margin-bottom: 6px; }
-.resultado-total { font-size: 2.4em; font-weight: bold; color: #FFD100; }
-.resultado-desglose { font-size: 0.82em; color: #cce0ff; margin-top: 8px; }
-.footer { text-align: center; color: #999; font-size: 0.75em; margin-top: 16px; padding-bottom: 20px; }
-.puesto-content { display: none; }
-.puesto-content.activo { display: block; }
-.pilar-badge {
-  display: inline-block; background: #FFD100; color: #003DA5; font-weight: bold;
-  padding: 2px 10px; border-radius: 8px; font-size: 0.78em; margin-bottom: 4px;
-}
-.nota-info {
-  font-size: 0.75em; color: #856404; margin-top: 4px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Incentivos | Coppel Retail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0B2B5C;
+            --blue-accent: #1058B0;
+            --yellow: #FFD100;
+            --bg-gray: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-gray); color: var(--text-dark); padding: 12px; }
+
+        .container { max-width: 600px; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--navy), var(--blue-accent));
+            color: white; border-radius: 16px; padding: 20px; text-align: center;
+            box-shadow: 0 4px 12px rgba(11, 43, 92, 0.25); margin-bottom: 16px;
+        }
+        .header h1 { font-size: 1.5rem; color: var(--yellow); font-weight: 700; margin-bottom: 4px; }
+        .header p { font-size: 0.85rem; opacity: 0.9; }
+
+        /* Card Section */
+        .card {
+            background: var(--card-bg); border-radius: 14px; padding: 16px;
+            border-left: 5px solid var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 14px;
+        }
+        .card-title { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+        /* Form Controls */
+        label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px; }
+        input, select {
+            width: 100%; padding: 10px 12px; font-size: 0.95rem; font-weight: 600;
+            border: 2px solid var(--border-color); border-radius: 10px; margin-bottom: 12px;
+            outline: none; transition: all 0.2s;
+        }
+        input:focus, select:focus { border-color: var(--navy); }
+
+        /* Grid inputs */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* Chips / Badges */
+        .chip { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; margin-bottom: 10px; }
+        .chip-green { background-color: #D1FAE5; color: #065F46; }
+        .chip-red { background-color: #FEE2E2; color: #991B1B; }
+        .chip-yellow { background-color: #FEF3C7; color: #92400E; }
+
+        /* Result Card */
+        .result-card {
+            background: linear-gradient(135deg, var(--navy), var(--blue-accent));
+            border-radius: 16px; padding: 20px; text-align: center; color: white;
+            box-shadow: 0 6px 20px rgba(11, 43, 92, 0.3); margin-top: 20px;
+        }
+        .result-title { font-size: 0.9rem; font-weight: 600; color: #EBF3FC; margin-bottom: 6px; }
+        .result-total { font-size: 2.3rem; font-weight: 700; color: var(--yellow); }
+        .result-breakdown { font-size: 0.8rem; color: #CBD5E1; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 8px; }
+
+        /* Footer */
+        .footer { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 20px; padding-bottom: 10px; }
+    </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>🏆 Incentivos Retail</h1>
-  <p>Selecciona tu puesto para calcular tu incentivo</p>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🏆 Incentivos Coppel</h1>
+        <p>Modelo Equipos Enfocados 2.0 (120 Tiendas)</p>
+    </div>
+
+    <!-- Puesto Selector -->
+    <div class="card" style="border-left-color: var(--yellow);">
+        <label for="puesto">👤 Selecciona tu Puesto:</label>
+        <select id="puesto" onchange="calcular()">
+            <option value="asesor">🎯 Asesor de Ventas</option>
+            <option value="telefonia">📱 Asesor de Telefonía</option>
+            <option value="optometrista">👁️ Optometrista</option>
+        </select>
+    </div>
+
+    <!-- Pilar 1: Venta de Equipo -->
+    <div class="card">
+        <div class="card-title">🤝 Pilar 1 — Venta de Equipo</div>
+        
+        <div id="campo-optica-monto" style="display:none;">
+            <label for="monto-optica">Venta Total de Óptica en el Mes ($):</label>
+            <input type="number" id="monto-optica" placeholder="Ej: 146100" value="146100" oninput="calcular()">
+        </div>
+
+        <label for="cump-equipo">% Cumplimiento Meta del Equipo:</label>
+        <input type="number" id="cump-equipo" placeholder="Ej: 103" value="103" oninput="calcular()">
+        <div id="chip-pilar1"></div>
+    </div>
+
+    <!-- Pilar 2: Venta Grupal -->
+    <div class="card">
+        <div class="card-title">🏪 Pilar 2 — Venta Grupal (Tienda)</div>
+        <div class="grid-2">
+            <div>
+                <label for="cump-credito">% Venta a Crédito:</label>
+                <input type="number" id="cump-credito" placeholder="Ej: 96" value="96" oninput="calcular()">
+            </div>
+            <div>
+                <label for="cump-digital">% 1ª Compra Digital:</label>
+                <input type="number" id="cump-digital" placeholder="Ej: 103" value="103" oninput="calcular()">
+            </div>
+        </div>
+        <label for="cump-tienda">% Venta Total Tienda:</label>
+        <input type="number" id="cump-tienda" placeholder="Ej: 100" value="100" oninput="calcular()">
+        <div id="chips-pilar2"></div>
+    </div>
+
+    <!-- Pilar 3: Comisiones Individuales -->
+    <div class="card">
+        <div class="card-title">💼 Pilar 3 — Comisión Individual (Unidades)</div>
+        <div id="chip-pilar3-status"></div>
+        
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">Ingresa la cantidad de servicios/seguros vendidos:</p>
+        
+        <div class="grid-2">
+            <div>
+                <label for="q-gex">🔧 Garantía Extendida (GEX):</label>
+                <input type="number" id="q-gex" placeholder="0" value="45" oninput="calcular()">
+            </div>
+            <div>
+                <label for="q-arm">🔩 Servicio Armado:</label>
+                <input type="number" id="q-arm" placeholder="0" value="8" oninput="calcular()">
+            </div>
+            <div>
+                <label for="q-inst">🔌 Instalaciones:</label>
+                <input type="number" id="q-inst" placeholder="0" value="0" oninput="calcular()">
+            </div>
+            <div>
+                <label for="q-club">🛡️ Club de Protección:</label>
+                <input type="number" id="q-club" placeholder="0" value="0" oninput="calcular()">
+            </div>
+            <div>
+                <label for="q-mrc">🏍️ Seguro Motos RC:</label>
+                <input type="number" id="q-mrc" placeholder="0" value="20" oninput="calcular()">
+            </div>
+            <div>
+                <label for="q-mplus">🏍️ Seguro Motos PLUS:</label>
+                <input type="number" id="q-mplus" placeholder="0" value="0" oninput="calcular()">
+            </div>
+        </div>
+        <label for="q-cel">📱 Seguro Celulares:</label>
+        <input type="number" id="q-cel" placeholder="0" value="52" oninput="calcular()">
+    </div>
+
+    <!-- Resultado Final -->
+    <div class="result-card">
+        <div class="result-title">🏆 INCENTIVO TOTAL ESTIMADO DEL MES</div>
+        <div class="result-total" id="total-incentivo">$0.00 MXN</div>
+        <div class="result-breakdown" id="desglose-texto">Cargando desglose...</div>
+    </div>
+
+    <div class="footer">
+        Coppel Retail © 2026 — Calculadora Operativa de Incentivos
+    </div>
 </div>
-
-<div class="selector-container">
-  <label>👤 ¿Cuál es tu puesto?</label>
-  <select id="selectorPuesto" onchange="mostrarPuesto()">
-    <option value="asesor">🎯 Asesor de Ventas</option>
-    <option value="telefonia">📱 Asesor Telefonía</option>
-    <option value="optometrista">👓 Optometrista</option>
-    <option value="gerente">👔 Gerente Titular</option>
-  </select>
-</div>
-
-<hr class="divider">
-
-<!-- ============================= ASESOR DE VENTAS ============================= -->
-<div id="panelAsesor" class="puesto-content activo">
-
-  <div class="header">
-    <h1>🏆 Calculadora de Incentivos</h1>
-    <p>Asesor de Ventas</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 1</span>
-    <div class="card-titulo">🤝 Venta de Equipo</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se paga incentivo de acuerdo al % de cumplimiento de la meta de venta de equipo.
-      Todos los asesores del equipo ganan el mismo incentivo.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento meta del equipo</label>
-      <input type="text" id="av_equipo" placeholder="Ej: 95.5" oninput="calcularAsesor()">
-    </div>
-    <div id="av_chip_equipo"></div>
-    <div id="av_metrica_base" class="metricas-row"></div>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 2</span>
-    <div class="card-titulo">✖️ Multiplicadores</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      De acuerdo al resultado en los siguientes indicadores, se puede obtener hasta un 40% adicional
-      sobre el incentivo base del Pilar 1.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento Venta a Crédito (Tienda)</label>
-      <input type="text" id="av_credito" placeholder="Ej: 92.0" oninput="calcularAsesor()">
-    </div>
-    <div class="input-group">
-      <label>% Clientes con primera compra en Canal Digital (Tienda)</label>
-      <input type="text" id="av_digital" placeholder="Ej: 93.0" oninput="calcularAsesor()">
-    </div>
-    <div id="av_chip_mult"></div>
-    <div id="av_metrica_mult" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Nota: Los multiplicadores se suman (máximo 40%). Se aplican solo sobre el Pilar 1.</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 3</span>
-    <div class="card-titulo">💼 Comisiones por Venta</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se otorga una comisión individual por la venta realizada de acuerdo al tipo de producto
-      y al cumplimiento de la meta de venta del equipo.
-    </p>
-    <div id="av_chip_tasas"></div>
-    <hr class="divider">
-    <p class="subtitulo">Coppel Soluciones y Seguros</p>
-    <div class="input-group"><label>🛡️ Seguros Club de Protección ($)</label><input type="text" id="av_club" placeholder="Ej: 5000" oninput="calcularAsesor()"></div>
-    <div class="input-group"><label>🏍️ Seguros Motos RC ($)</label><input type="text" id="av_mrc" placeholder="Ej: 3000" oninput="calcularAsesor()"></div>
-    <div class="input-group"><label>🏍️ Seguros Motos PLUS ($)</label><input type="text" id="av_mplus" placeholder="Ej: 3000" oninput="calcularAsesor()"></div>
-    <div class="input-group"><label>🔧 Garantía Extendida ($)</label><input type="text" id="av_gar" placeholder="Ej: 1500" oninput="calcularAsesor()"></div>
-    <div class="input-group"><label>🔩 Servicio de Armado ($)</label><input type="text" id="av_arm" placeholder="Ej: 800" oninput="calcularAsesor()"></div>
-    <div class="input-group"><label>🔌 Servicio de Instalación ($)</label><input type="text" id="av_inst" placeholder="Ej: 600" oninput="calcularAsesor()"></div>
-    <hr class="divider">
-    <p class="subtitulo">Seguros Celulares (tasa diferenciada)</p>
-    <div class="input-group"><label>📱 Seguros Celulares ($)</label><input type="text" id="av_cel" placeholder="Ej: 18460" oninput="calcularAsesor()"></div>
-    <div id="av_metrica_comisiones" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Nota: La venta se toma individual con número de vendedor registrado.</p>
-    <p class="nota-info">📱 Seguros Celulares comisiona al 1.5% (≥80%) o 2.5% (≥100%), distinto al resto (3% / 5%).</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 4</span>
-    <div class="card-titulo">🏪 Venta de Tienda</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se paga un incentivo extra sobre todo el incentivo ganado por los pilares anteriores,
-      dependiendo del cumplimiento de venta total de la tienda.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento meta de la tienda</label>
-      <input type="text" id="av_tienda" placeholder="Ej: 102.0" oninput="calcularAsesor()">
-    </div>
-    <div id="av_chip_tienda"></div>
-  </div>
-
-  <div id="av_resultado"></div>
-</div>
-
-<!-- ============================= ASESOR TELEFONÍA ============================= -->
-<div id="panelTelefonia" class="puesto-content">
-
-  <div class="header">
-    <h1>🏆 Calculadora de Incentivos</h1>
-    <p>Asesor Telefonía</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 1</span>
-    <div class="card-titulo">📱 Venta de Equipo Telefonía</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se paga incentivo de acuerdo al % de cumplimiento de la meta de venta de telefonía.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento meta de venta de telefonía</label>
-      <input type="text" id="tel_equipo" placeholder="Ej: 95.5" oninput="calcularTelefonia()">
-    </div>
-    <div id="tel_chip_equipo"></div>
-    <div id="tel_metrica_base" class="metricas-row"></div>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 2</span>
-    <div class="card-titulo">✖️ Multiplicadores</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      De acuerdo al resultado en los siguientes indicadores, se puede obtener hasta un 40% adicional
-      sobre el incentivo base del Pilar 1.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento Venta a Crédito (Tienda)</label>
-      <input type="text" id="tel_credito" placeholder="Ej: 92.0" oninput="calcularTelefonia()">
-    </div>
-    <div class="input-group">
-      <label>% Clientes con primera compra en Canal Digital (Tienda)</label>
-      <input type="text" id="tel_digital" placeholder="Ej: 93.0" oninput="calcularTelefonia()">
-    </div>
-    <div id="tel_chip_mult"></div>
-    <div id="tel_metrica_mult" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Nota: Los multiplicadores se suman (máximo 40%). Se aplican solo sobre el Pilar 1.</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 3</span>
-    <div class="card-titulo">💼 Comisiones por Venta</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se otorga una comisión individual por la venta realizada de acuerdo al tipo de producto
-      y al cumplimiento de la meta de venta de telefonía.
-    </p>
-    <div id="tel_chip_tasas"></div>
-    <hr class="divider">
-    <p class="subtitulo">Seguros y Coppel Soluciones (excepto celulares)</p>
-    <div class="input-group"><label>🛡️ Seguros Club de Protección ($)</label><input type="text" id="tel_club" placeholder="Ej: 5000" oninput="calcularTelefonia()"></div>
-    <div class="input-group"><label>🏍️ Seguros Motos RC ($)</label><input type="text" id="tel_mrc" placeholder="Ej: 3000" oninput="calcularTelefonia()"></div>
-    <div class="input-group"><label>🏍️ Seguros Motos PLUS ($)</label><input type="text" id="tel_mplus" placeholder="Ej: 3000" oninput="calcularTelefonia()"></div>
-    <div class="input-group"><label>🔧 Garantía Extendida ($)</label><input type="text" id="tel_gar" placeholder="Ej: 1500" oninput="calcularTelefonia()"></div>
-    <div class="input-group"><label>🔩 Servicio de Armado ($)</label><input type="text" id="tel_arm" placeholder="Ej: 800" oninput="calcularTelefonia()"></div>
-    <div class="input-group"><label>🔌 Servicio de Instalación ($)</label><input type="text" id="tel_inst" placeholder="Ej: 600" oninput="calcularTelefonia()"></div>
-    <hr class="divider">
-    <p class="subtitulo">Seguros Celulares (tasa diferenciada)</p>
-    <div class="input-group"><label>📱 Seguros Celulares ($)</label><input type="text" id="tel_cel" placeholder="Ej: 18460" oninput="calcularTelefonia()"></div>
-    <div id="tel_metrica_comisiones" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Nota: La venta se toma individual con número de vendedor registrado.</p>
-    <p class="nota-info">📱 Seguros Celulares comisiona al 1.5% (≥90%) o 2.5% (≥100%), distinto al resto (3% / 5%).</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 4</span>
-    <div class="card-titulo">🏪 Venta de Tienda</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se paga un incentivo extra sobre todo el incentivo ganado por los pilares anteriores,
-      dependiendo del cumplimiento de venta total de la tienda.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento meta de la tienda</label>
-      <input type="text" id="tel_tienda" placeholder="Ej: 102.0" oninput="calcularTelefonia()">
-    </div>
-    <div id="tel_chip_tienda"></div>
-  </div>
-
-  <div id="tel_resultado"></div>
-</div>
-
-<!-- ============================= OPTOMETRISTA ============================= -->
-<div id="panelOptometrista" class="puesto-content">
-
-  <div class="header">
-    <h1>🏆 Calculadora de Incentivos</h1>
-    <p>Optometrista</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 1</span>
-    <div class="card-titulo">👓 Venta de Equipo Óptica</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se paga incentivo de acuerdo al % de cumplimiento de la meta de venta de la categoría óptica en la tienda.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento meta por equipo óptica</label>
-      <input type="text" id="opt_equipo" placeholder="Ej: 95.5" oninput="calcularOptometrista()">
-    </div>
-    <div id="opt_chip_equipo"></div>
-    <div id="opt_metrica_base" class="metricas-row"></div>
-    <p class="nota-info">🔒 Sujeto a: Venta de Óptica mayor a $45,000 al mes.</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 2</span>
-    <div class="card-titulo">✖️ Multiplicadores</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      De acuerdo al resultado en los siguientes indicadores, se puede obtener hasta un 40% adicional
-      sobre el incentivo base del Pilar 1.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento Venta a Crédito (Tienda)</label>
-      <input type="text" id="opt_credito" placeholder="Ej: 92.0" oninput="calcularOptometrista()">
-    </div>
-    <div class="input-group">
-      <label>% Clientes con primera compra en Canal Digital (Tienda)</label>
-      <input type="text" id="opt_digital" placeholder="Ej: 93.0" oninput="calcularOptometrista()">
-    </div>
-    <div id="opt_chip_mult"></div>
-    <div id="opt_metrica_mult" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Nota: Los multiplicadores se suman (máximo 40%). Se aplican solo sobre el Pilar 1.</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 3</span>
-    <div class="card-titulo">💼 Comisiones por Venta</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se otorga una comisión individual por la venta realizada de acuerdo al tipo de producto
-      y al cumplimiento de la meta de venta del equipo óptica.
-    </p>
-    <div id="opt_chip_tasas"></div>
-    <hr class="divider">
-    <p class="subtitulo">Coppel Soluciones y Seguros</p>
-    <div class="input-group"><label>🛡️ Seguros Club de Protección ($)</label><input type="text" id="opt_club" placeholder="Ej: 5000" oninput="calcularOptometrista()"></div>
-    <div class="input-group"><label>🏍️ Seguros Motos RC ($)</label><input type="text" id="opt_mrc" placeholder="Ej: 3000" oninput="calcularOptometrista()"></div>
-    <div class="input-group"><label>🏍️ Seguros Motos PLUS ($)</label><input type="text" id="opt_mplus" placeholder="Ej: 3000" oninput="calcularOptometrista()"></div>
-    <div class="input-group"><label>🔧 Garantía Extendida ($)</label><input type="text" id="opt_gar" placeholder="Ej: 1500" oninput="calcularOptometrista()"></div>
-    <div class="input-group"><label>🔩 Servicio de Armado ($)</label><input type="text" id="opt_arm" placeholder="Ej: 800" oninput="calcularOptometrista()"></div>
-    <div class="input-group"><label>🔌 Servicio de Instalación ($)</label><input type="text" id="opt_inst" placeholder="Ej: 600" oninput="calcularOptometrista()"></div>
-    <hr class="divider">
-    <p class="subtitulo">Seguros Celulares (tasa diferenciada)</p>
-    <div class="input-group"><label>📱 Seguros Celulares ($)</label><input type="text" id="opt_cel" placeholder="Ej: 18460" oninput="calcularOptometrista()"></div>
-    <div id="opt_metrica_comisiones" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Nota: La venta se toma individual con número de vendedor registrado.</p>
-    <p class="nota-info">📱 Seguros Celulares comisiona al 1.5% (≥80%) o 2.5% (≥100%), distinto al resto (3% / 5%).</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 4</span>
-    <div class="card-titulo">🏪 Venta de Tienda</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se paga un incentivo extra sobre todo el incentivo ganado por los pilares anteriores,
-      dependiendo del cumplimiento de venta total de la tienda.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento meta de la tienda</label>
-      <input type="text" id="opt_tienda" placeholder="Ej: 102.0" oninput="calcularOptometrista()">
-    </div>
-    <div id="opt_chip_tienda"></div>
-  </div>
-
-  <div id="opt_resultado"></div>
-</div>
-
-<!-- ============================= GERENTE ============================= -->
-<div id="panelGerente" class="puesto-content">
-
-  <div class="header">
-    <h1>🏆 Calculadora de Incentivos</h1>
-    <p>Gerente Titular</p>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 1</span>
-    <div class="card-titulo">🏪 Meta de Tienda</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se paga un incentivo base dependiendo del cumplimiento de meta de venta de la tienda.
-    </p>
-    <div class="input-group">
-      <label>% Cumplimiento meta de venta de la tienda</label>
-      <input type="text" id="ger_tienda" placeholder="Ej: 103.0" oninput="calcularGerente()">
-    </div>
-    <div id="ger_chip_tienda"></div>
-    <div id="ger_metrica_base" class="metricas-row"></div>
-  </div>
-
-  <div class="card">
-    <span class="pilar-badge">PILAR 2</span>
-    <div class="card-titulo">📋 Evaluación Objetiva</div>
-    <hr class="divider">
-    <p style="font-size:0.82em; color:#555; margin-bottom:8px;">
-      Se paga incentivo de acuerdo a la calificación obtenida en la Evaluación Objetiva.
-    </p>
-    <div class="input-group">
-      <label>% Resultado de Evaluación Objetiva</label>
-      <input type="text" id="ger_eval" placeholder="Ej: 92.0" oninput="calcularGerente()">
-    </div>
-    <div id="ger_chip_eval"></div>
-    <div id="ger_metrica_eval" class="metricas-row"></div>
-    <p class="nota-info">⚠️ Sujeto a: cumplir al menos con 87% de venta de Tienda.</p>
-  </div>
-
-  <div id="ger_resultado"></div>
-</div>
-
-<div class="footer">Calculadora Interna • v6.1 • Ajuste de Tabuladores Gerente</div>
 
 <script>
-function leerNum(id) {
-  var v = document.getElementById(id).value.replace(/,/g, '.').replace(/\$/g, '').replace(/ /g, '');
-  var n = parseFloat(v);
-  return isNaN(n) ? 0 : Math.max(0, n);
-}
-function fmt(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-function chipHTML(tipo, texto) {
-  return '<span class="chip chip-' + tipo + '">' + texto + '</span>';
-}
-function metricaHTML(etiqueta, valor) {
-  return '<div class="metrica"><div class="metrica-etiqueta">' + etiqueta + '</div><div class="metrica-valor">' + valor + '</div></div>';
-}
-function resultadoHTML(total, desglose) {
-  return '<div class="resultado"><div class="resultado-label">🏆 TU INCENTIVO TOTAL DEL MES</div>'
-    + '<div class="resultado-total">' + fmt(total) + '</div>'
-    + '<div class="resultado-desglose">' + desglose + '</div></div>';
-}
+    function calcular() {
+        const puesto = document.getElementById('puesto').value;
+        const cumpEq = parseFloat(document.getElementById('cump-equipo').value) || 0;
+        const montoOptica = parseFloat(document.getElementById('monto-optica').value) || 0;
+        
+        const cumpCredito = parseFloat(document.getElementById('cump-credito').value) || 0;
+        const cumpDigital = parseFloat(document.getElementById('cump-digital').value) || 0;
+        const cumpTienda = parseFloat(document.getElementById('cump-tienda').value) || 0;
 
-function mostrarPuesto() {
-  var sel = document.getElementById('selectorPuesto').value;
-  var paneles = document.querySelectorAll('.puesto-content');
-  for (var i = 0; i < paneles.length; i++) paneles[i].classList.remove('activo');
-  if (sel === 'asesor') {
-    document.getElementById('panelAsesor').classList.add('activo');
-    calcularAsesor();
-  } else if (sel === 'telefonia') {
-    document.getElementById('panelTelefonia').classList.add('activo');
-    calcularTelefonia();
-  } else if (sel === 'optometrista') {
-    document.getElementById('panelOptometrista').classList.add('activo');
-    calcularOptometrista();
-  } else if (sel === 'gerente') {
-    document.getElementById('panelGerente').classList.add('activo');
-    calcularGerente();
-  }
-}
+        const qGex = parseInt(document.getElementById('q-gex').value) || 0;
+        const qArm = parseInt(document.getElementById('q-arm').value) || 0;
+        const qInst = parseInt(document.getElementById('q-inst').value) || 0;
+        const qClub = parseInt(document.getElementById('q-club').value) || 0;
+        const qMrc = parseInt(document.getElementById('q-mrc').value) || 0;
+        const qMplus = parseInt(document.getElementById('q-mplus').value) || 0;
+        const qCel = parseInt(document.getElementById('q-cel').value) || 0;
 
-// ============================= ASESOR DE VENTAS =============================
-function calcularAsesor() {
-  var ce = leerNum('av_equipo');
-  var base = 0;
-  if      (ce < 85)  base = 0;
-  else if (ce < 90)  base = 250;
-  else if (ce < 95)  base = 500;
-  else if (ce < 100) base = 850;
-  else if (ce < 110) base = 1350;
-  else if (ce < 120) base = 1650;
-  else               base = 2000;
+        // Mostrar / Ocultar campo especial Óptica
+        document.getElementById('campo-optica-monto').style.display = (puesto === 'optometrista') ? 'block' : 'none';
 
-  var chipEq = '';
-  if (ce < 85)       chipEq = chipHTML('rojo',     '❌ < 85% — Sin incentivo base');
-  else if (ce < 100) chipEq = chipHTML('amarillo', '⚠️ Cumplimiento parcial (85% - 99.99%)');
-  else               chipEq = chipHTML('verde',    '✅ Meta alcanzada');
-  document.getElementById('av_chip_equipo').innerHTML = chipEq;
-  document.getElementById('av_metrica_base').innerHTML = metricaHTML('💰 Incentivo Equipo', fmt(base));
+        // -------------------------------------------------------------
+        // PILAR 1: VENTA DE EQUIPO
+        // -------------------------------------------------------------
+        let incP1 = 0;
+        let umbralMin = 85;
+        let p1ChipText = "";
+        let p1ChipClass = "chip-green";
 
-  var cc = leerNum('av_credito');
-  var cd = leerNum('av_digital');
-  var pctMultCredito = (cc >= 90) ? 0.20 : 0;
-  var pctMultDigital = (cd >= 90) ? 0.20 : 0;
-  var pctMultTotal   = pctMultCredito + pctMultDigital;
-  var montoMult = base * pctMultTotal;
+        if (puesto === 'asesor') {
+            umbralMin = 85;
+            if (cumpEq < 85) { incP1 = 0; p1ChipText = "❌ < 85% — Sin pago base"; p1ChipClass = "chip-red"; }
+            else if (cumpEq < 90) { incP1 = 250; p1ChipText = "⚠️ Cumplimiento Parcial (85%-89%)"; p1ChipClass = "chip-yellow"; }
+            else if (cumpEq < 95) { incP1 = 500; p1ChipText = "⚠️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
+            else if (cumpEq < 100) { incP1 = 850; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
+            else if (cumpEq < 110) { incP1 = 1300; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
+            else if (cumpEq < 120) { incP1 = 1650; p1ChipText = "✅ Sobremeta (110%-119%)"; }
+            else { incP1 = 2000; p1ChipText = "✅ Máximo Cumplimiento (≥120%)"; }
+        } 
+        else if (puesto === 'telefonia') {
+            umbralMin = 90;
+            if (cumpEq < 90) { incP1 = 0; p1ChipText = "❌ < 90% — Sin pago base"; p1ChipClass = "chip-red"; }
+            else if (cumpEq < 95) { incP1 = 900; p1ChipText = "⚠️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
+            else if (cumpEq < 100) { incP1 = 1100; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
+            else if (cumpEq < 110) { incP1 = 1450; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
+            else if (cumpEq < 120) { incP1 = 1750; p1ChipText = "✅ Sobremeta (110%-119%)"; }
+            else { incP1 = 2100; p1ChipText = "✅ Máximo Cumplimiento (≥120%)"; }
+        } 
+        else if (puesto === 'optometrista') {
+            umbralMin = 80;
+            if (montoOptica < 45000) {
+                incP1 = 0; p1ChipText = "❌ Venta Óptica < $45,000 — Sin pago base"; p1ChipClass = "chip-red";
+            } else if (cumpEq < 80) {
+                incP1 = 0; p1ChipText = "❌ < 80% — Sin pago base"; p1ChipClass = "chip-red";
+            } else if (cumpEq < 90) { incP1 = 500; p1ChipText = "⚠️ Cumplimiento Parcial (80%-89%)"; p1ChipClass = "chip-yellow"; }
+            else if (cumpEq < 95) { incP1 = 900; p1ChipText = "⚠️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
+            else if (cumpEq < 100) { incP1 = 1200; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
+            else if (cumpEq < 110) { incP1 = 1600; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
+            else if (cumpEq < 120) { incP1 = 1900; p1ChipText = "✅ Sobremeta (110%-119%)"; }
+            else { incP1 = 2300; p1ChipText = "✅ Máximo Cumplimiento (≥120%)"; }
+        }
 
-  var chipM = '';
-  if (cc >= 90) chipM += chipHTML('verde', '✅ Vta Crédito Tienda ≥ 90% → +20%');
-  else          chipM += chipHTML('rojo',  '❌ Vta Crédito Tienda < 90% → +0%');
-  chipM += '<br>';
-  if (cd >= 90) chipM += chipHTML('verde', '✅ Primera compra Canal Digital ≥ 90% → +20%');
-  else          chipM += chipHTML('rojo',  '❌ Primera compra Canal Digital < 90% → +0%');
-  document.getElementById('av_chip_mult').innerHTML = chipM;
-  document.getElementById('av_metrica_mult').innerHTML =
-    metricaHTML('📐 Base (Pilar 1)', fmt(base)) +
-    metricaHTML('📊 % Adicional', '+' + (pctMultTotal * 100).toFixed(0) + '%') +
-    metricaHTML('💰 Multiplicadores', fmt(montoMult));
+        document.getElementById('chip-pilar1').innerHTML = `<span class="chip ${p1ChipClass}">${p1ChipText}</span>`;
 
-  var pctS = 0, pctCel = 0, etiquetaTasa = '';
-  if (ce >= 100) {
-    pctS = 0.05; pctCel = 0.025;
-    etiquetaTasa  = chipHTML('verde', '✅ Cumpl. Equipo ≥ 100% → Comisión general al 5%');
-    etiquetaTasa += '<br>' + chipHTML('verde', '📱 Seguros Celulares → Comisión al 2.5%');
-  } else if (ce >= 80) {
-    pctS = 0.03; pctCel = 0.015;
-    etiquetaTasa  = chipHTML('amarillo', '⚠️ Cumpl. Equipo ≥ 80% → Comisión general al 3%');
-    etiquetaTasa += '<br>' + chipHTML('amarillo', '📱 Seguros Celulares → Comisión al 1.5%');
-  } else {
-    etiquetaTasa = chipHTML('rojo', '❌ Cumpl. Equipo < 80% → Sin comisiones');
-  }
-  document.getElementById('av_chip_tasas').innerHTML = etiquetaTasa;
+        // -------------------------------------------------------------
+        // PILAR 2: VENTA GRUPAL
+        // -------------------------------------------------------------
+        let incCredito = (cumpCredito >= 90) ? 150 : 0;
+        let incDigital = (cumpDigital >= 90) ? 150 : 0;
+        let incTienda = (cumpTienda >= 100) ? 300 : 0;
+        let incP2 = incCredito + incDigital + incTienda;
 
-  var vClub = leerNum('av_club'), vMrc = leerNum('av_mrc'), vMplus = leerNum('av_mplus');
-  var vGar = leerNum('av_gar'), vArm = leerNum('av_arm'), vInst = leerNum('av_inst');
-  var vCel = leerNum('av_cel');
-  var comGeneral = (vClub + vMrc + vMplus + vGar + vArm + vInst) * pctS;
-  var comCel = vCel * pctCel;
-  var totalCom = comGeneral + comCel;
+        let chipsP2Html = "";
+        chipsP2Html += `<span class="chip ${incCredito > 0 ? 'chip-green' : 'chip-red'}">${incCredito > 0 ? '✅ Crédito ≥90% (+$150)' : '❌ Crédito <90% (+$0)'}</span> `;
+        chipsP2Html += `<span class="chip ${incDigital > 0 ? 'chip-green' : 'chip-red'}">${incDigital > 0 ? '✅ Digital ≥90% (+$150)' : '❌ Digital <90% (+$0)'}</span> `;
+        chipsP2Html += `<span class="chip ${incTienda > 0 ? 'chip-green' : 'chip-red'}">${incTienda > 0 ? '✅ Tienda ≥100% (+$300)' : '❌ Tienda <100% (+$0)'}</span>`;
+        document.getElementById('chips-pilar2').innerHTML = chipsP2Html;
 
-  document.getElementById('av_metrica_comisiones').innerHTML =
-    metricaHTML('🛡️ Com. General', fmt(comGeneral)) +
-    metricaHTML('📱 Com. Celulares', fmt(comCel)) +
-    metricaHTML('📊 Total Comisiones', fmt(totalCom));
+        // -------------------------------------------------------------
+        // PILAR 3: COMISIONES POR UNIDAD
+        // -------------------------------------------------------------
+        let incP3 = 0;
+        let habilitadoP3 = (cumpEq >= umbralMin) && (puesto !== 'optometrista' || montoOptica >= 45000);
 
-  var ct = leerNum('av_tienda');
-  var subtotal = base + montoMult + totalCom;
-  var bono = ct >= 100 ? 0.20 : 0.0;
-  var bonoExtra = subtotal * bono;
-  if (ct >= 100)
-    document.getElementById('av_chip_tienda').innerHTML = chipHTML('verde', '✅ Tienda ≥ 100% → +20% sobre Equipo + Multiplicadores + Comisiones');
-  else
-    document.getElementById('av_chip_tienda').innerHTML = chipHTML('rojo', '❌ Tienda < 100% — Sin bono de tienda');
+        if (!habilitadoP3) {
+            document.getElementById('chip-pilar3-status').innerHTML = `<span class="chip chip-red">❌ Requisito de Equipo No Cumplido — Comisiones Bloqueadas</span>`;
+        } else {
+            let esTop = (cumpEq >= 100);
+            document.getElementById('chip-pilar3-status').innerHTML = `<span class="chip ${esTop ? 'chip-green' : 'chip-yellow'}">${esTop ? '✅ Tasas Máximas Activas (Equipo ≥100%)' : '⚠️ Tasas Básicas Activas'}</span>`;
 
-  var total = subtotal + bonoExtra;
-  var desg = 'Pilar 1 - Equipo: ' + fmt(base);
-  desg += '<br>Pilar 2 - Multiplicadores (+' + (pctMultTotal * 100).toFixed(0) + '%): ' + fmt(montoMult);
-  desg += '<br>Pilar 3 - Comisiones: ' + fmt(totalCom) + ' (General: ' + fmt(comGeneral) + ' + Cel: ' + fmt(comCel) + ')';
-  desg += '<br>Pilar 4 - Bono Tienda (+' + (bono * 100).toFixed(0) + '%): ' + fmt(bonoExtra);
-  document.getElementById('av_resultado').innerHTML = resultadoHTML(total, desg);
-}
+            let mGex = esTop ? 30 : 15;
+            let mArm = esTop ? 15 : 10;
+            let mInst = esTop ? 70 : 40;
+            let mClub = esTop ? 3.0 : 1.5;
+            let mMrc = esTop ? 40 : 25;
+            let mMplus = esTop ? 90 : 50;
+            let mCel = esTop ? 10 : 5;
 
-// ============================= ASESOR TELEFONÍA =============================
-function calcularTelefonia() {
-  var ce = leerNum('tel_equipo');
-  var base = 0;
-  if      (ce < 90)  base = 0;
-  else if (ce < 95)  base = 900;
-  else if (ce < 100) base = 1100;
-  else if (ce < 110) base = 1450;
-  else if (ce < 120) base = 1750;
-  else               base = 2100;
+            incP3 = (qGex * mGex) + (qArm * mArm) + (qInst * mInst) + (qClub * mClub) + (qMrc * mMrc) + (qMplus * mMplus) + (qCel * mCel);
+        }
 
-  var chipEq = '';
-  if (ce < 90)       chipEq = chipHTML('rojo',     '❌ < 90% — Sin incentivo base ni comisiones');
-  else if (ce < 100) chipEq = chipHTML('amarillo', '⚠️ Cumplimiento parcial (90% - 99.99%)');
-  else               chipEq = chipHTML('verde',    '✅ Meta alcanzada');
-  document.getElementById('tel_chip_equipo').innerHTML = chipEq;
-  document.getElementById('tel_metrica_base').innerHTML = metricaHTML('💰 Incentivo Telefonía', fmt(base));
+        // -------------------------------------------------------------
+        // TOTAL Y DESGLOSE
+        // -------------------------------------------------------------
+        const totalFinal = incP1 + incP2 + incP3;
+        
+        document.getElementById('total-incentivo').innerText = `$${totalFinal.toLocaleString('es-MX', {minimumFractionDigits: 2, maximumFractionDigits: 2})} MXN`;
+        document.getElementById('desglose-texto').innerHTML = `Pilar 1 (Equipo): <b>$${incP1.toLocaleString('es-MX')}</b> | Pilar 2 (Grupal): <b>$${incP2.toLocaleString('es-MX')}</b> | Pilar 3 (Comisiones): <b>$${incP3.toLocaleString('es-MX')}</b>`;
+    }
 
-  var cc = leerNum('tel_credito');
-  var cd = leerNum('tel_digital');
-  var pctMultCredito = (cc >= 90) ? 0.20 : 0;
-  var pctMultDigital = (cd >= 90) ? 0.20 : 0;
-  var pctMultTotal   = pctMultCredito + pctMultDigital;
-  var montoMult = base * pctMultTotal;
-
-  var chipM = '';
-  if (cc >= 90) chipM += chipHTML('verde', '✅ Vta Crédito Tienda ≥ 90% → +20%');
-  else          chipM += chipHTML('rojo',  '❌ Vta Crédito Tienda < 90% → +0%');
-  chipM += '<br>';
-  if (cd >= 90) chipM += chipHTML('verde', '✅ Primera compra Canal Digital ≥ 90% → +20%');
-  else          chipM += chipHTML('rojo',  '❌ Primera compra Canal Digital < 90% → +0%');
-  document.getElementById('tel_chip_mult').innerHTML = chipM;
-  document.getElementById('tel_metrica_mult').innerHTML =
-    metricaHTML('📐 Base (Pilar 1)', fmt(base)) +
-    metricaHTML('📊 % Adicional', '+' + (pctMultTotal * 100).toFixed(0) + '%') +
-    metricaHTML('💰 Multiplicadores', fmt(montoMult));
-
-  var pctS = 0, pctCel = 0, etiquetaTasa = '';
-  if (ce >= 100) {
-    pctS = 0.05; pctCel = 0.025;
-    etiquetaTasa  = chipHTML('verde', '✅ Cumpl. Telefonía ≥ 100% → Comisión general al 5%');
-    etiquetaTasa += '<br>' + chipHTML('verde', '📱 Seguros Celulares → Comisión al 2.5%');
-  } else if (ce >= 90) {
-    pctS = 0.03; pctCel = 0.015;
-    etiquetaTasa  = chipHTML('amarillo', '⚠️ Cumpl. Telefonía ≥ 90% → Comisión general al 3%');
-    etiquetaTasa += '<br>' + chipHTML('amarillo', '📱 Seguros Celulares → Comisión al 1.5%');
-  } else {
-    etiquetaTasa = chipHTML('rojo', '❌ Cumpl. Telefonía < 90% → Sin comisiones');
-  }
-  document.getElementById('tel_chip_tasas').innerHTML = etiquetaTasa;
-
-  var vClub = leerNum('tel_club'), vMrc = leerNum('tel_mrc'), vMplus = leerNum('tel_mplus');
-  var vGar = leerNum('tel_gar'), vArm = leerNum('tel_arm'), vInst = leerNum('tel_inst');
-  var vCel = leerNum('tel_cel');
-  var comGeneral = (vClub + vMrc + vMplus + vGar + vArm + vInst) * pctS;
-  var comCel = vCel * pctCel;
-  var totalCom = comGeneral + comCel;
-
-  document.getElementById('tel_metrica_comisiones').innerHTML =
-    metricaHTML('🛡️ Com. General', fmt(comGeneral)) +
-    metricaHTML('📱 Com. Celulares', fmt(comCel)) +
-    metricaHTML('📊 Total Comisiones', fmt(totalCom));
-
-  var ct = leerNum('tel_tienda');
-  var subtotal = base + montoMult + totalCom;
-  var bono = ct >= 100 ? 0.20 : 0.0;
-  var bonoExtra = subtotal * bono;
-  if (ct >= 100)
-    document.getElementById('tel_chip_tienda').innerHTML = chipHTML('verde', '✅ Tienda ≥ 100% → +20% sobre Equipo + Multiplicadores + Comisiones');
-  else
-    document.getElementById('tel_chip_tienda').innerHTML = chipHTML('rojo', '❌ Tienda < 100% — Sin bono de tienda');
-
-  var total = subtotal + bonoExtra;
-  var desg = 'Pilar 1 - Telefonía: ' + fmt(base);
-  desg += '<br>Pilar 2 - Multiplicadores (+' + (pctMultTotal * 100).toFixed(0) + '%): ' + fmt(montoMult);
-  desg += '<br>Pilar 3 - Comisiones: ' + fmt(totalCom) + ' (General: ' + fmt(comGeneral) + ' + Cel: ' + fmt(comCel) + ')';
-  desg += '<br>Pilar 4 - Bono Tienda (+' + (bono * 100).toFixed(0) + '%): ' + fmt(bonoExtra);
-  document.getElementById('tel_resultado').innerHTML = resultadoHTML(total, desg);
-}
-
-// ============================= OPTOMETRISTA =============================
-function calcularOptometrista() {
-  var ce = leerNum('opt_equipo');
-  var base = 0;
-  if      (ce < 80)  base = 0;
-  else if (ce < 90)  base = 500;
-  else if (ce < 95)  base = 900;
-  else if (ce < 100) base = 1100;
-  else if (ce < 110) base = 1450;
-  else if (ce < 120) base = 1750;
-  else               base = 2100;
-
-  var chipEq = '';
-  if (ce < 80)       chipEq = chipHTML('rojo',     '❌ < 80% — Sin incentivo base ni comisiones');
-  else if (ce < 100) chipEq = chipHTML('amarillo', '⚠️ Cumplimiento parcial (80% - 99.99%)');
-  else               chipEq = chipHTML('verde',    '✅ Meta alcanzada');
-  document.getElementById('opt_chip_equipo').innerHTML = chipEq;
-  document.getElementById('opt_metrica_base').innerHTML = metricaHTML('💰 Incentivo Óptica', fmt(base));
-
-  var cc = leerNum('opt_credito');
-  var cd = leerNum('opt_digital');
-  var pctMultCredito = (cc >= 90) ? 0.20 : 0;
-  var pctMultDigital = (cd >= 90) ? 0.20 : 0;
-  var pctMultTotal   = pctMultCredito + pctMultDigital;
-  var montoMult = base * pctMultTotal;
-
-  var chipM = '';
-  if (cc >= 90) chipM += chipHTML('verde', '✅ Vta Crédito Tienda ≥ 90% → +20%');
-  else          chipM += chipHTML('rojo',  '❌ Vta Crédito Tienda < 90% → +0%');
-  chipM += '<br>';
-  if (cd >= 90) chipM += chipHTML('verde', '✅ Primera compra Canal Digital ≥ 90% → +20%');
-  else          chipM += chipHTML('rojo',  '❌ Primera compra Canal Digital < 90% → +0%');
-  document.getElementById('opt_chip_mult').innerHTML = chipM;
-  document.getElementById('opt_metrica_mult').innerHTML =
-    metricaHTML('📐 Base (Pilar 1)', fmt(base)) +
-    metricaHTML('📊 % Adicional', '+' + (pctMultTotal * 100).toFixed(0) + '%') +
-    metricaHTML('💰 Multiplicadores', fmt(montoMult));
-
-  var pctS = 0, pctCel = 0, etiquetaTasa = '';
-  if (ce >= 100) {
-    pctS = 0.05; pctCel = 0.025;
-    etiquetaTasa  = chipHTML('verde', '✅ Cumpl. Óptica ≥ 100% → Comisión general al 5%');
-    etiquetaTasa += '<br>' + chipHTML('verde', '📱 Seguros Celulares → Comisión al 2.5%');
-  } else if (ce >= 80) {
-    pctS = 0.03; pctCel = 0.015;
-    etiquetaTasa  = chipHTML('amarillo', '⚠️ Cumpl. Óptica ≥ 80% → Comisión general al 3%');
-    etiquetaTasa += '<br>' + chipHTML('amarillo', '📱 Seguros Celulares → Comisión al 1.5%');
-  } else {
-    etiquetaTasa = chipHTML('rojo', '❌ Cumpl. Óptica < 80% → Sin comisiones');
-  }
-  document.getElementById('opt_chip_tasas').innerHTML = etiquetaTasa;
-
-  var vClub = leerNum('opt_club'), vMrc = leerNum('opt_mrc'), vMplus = leerNum('opt_mplus');
-  var vGar = leerNum('opt_gar'), vArm = leerNum('opt_arm'), vInst = leerNum('opt_inst');
-  var vCel = leerNum('opt_cel');
-  var comGeneral = (vClub + vMrc + vMplus + vGar + vArm + vInst) * pctS;
-  var comCel = vCel * pctCel;
-  var totalCom = comGeneral + comCel;
-
-  document.getElementById('opt_metrica_comisiones').innerHTML =
-    metricaHTML('🛡️ Com. General', fmt(comGeneral)) +
-    metricaHTML('📱 Com. Celulares', fmt(comCel)) +
-    metricaHTML('📊 Total Comisiones', fmt(totalCom));
-
-  var ct = leerNum('opt_tienda');
-  var subtotal = base + montoMult + totalCom;
-  var bono = ct >= 100 ? 0.20 : 0.0;
-  var bonoExtra = subtotal * bono;
-  if (ct >= 100)
-    document.getElementById('opt_chip_tienda').innerHTML = chipHTML('verde', '✅ Tienda ≥ 100% → +20% sobre Equipo + Multiplicadores + Comisiones');
-  else
-    document.getElementById('opt_chip_tienda').innerHTML = chipHTML('rojo', '❌ Tienda < 100% — Sin bono de tienda');
-
-  var total = subtotal + bonoExtra;
-  var desg = 'Pilar 1 - Óptica: ' + fmt(base);
-  desg += '<br>Pilar 2 - Multiplicadores (+' + (pctMultTotal * 100).toFixed(0) + '%): ' + fmt(montoMult);
-  desg += '<br>Pilar 3 - Comisiones: ' + fmt(totalCom) + ' (General: ' + fmt(comGeneral) + ' + Cel: ' + fmt(comCel) + ')';
-  desg += '<br>Pilar 4 - Bono Tienda (+' + (bono * 100).toFixed(0) + '%): ' + fmt(bonoExtra);
-  document.getElementById('opt_resultado').innerHTML = resultadoHTML(total, desg);
-}
-
-// ============================= GERENTE TITULAR =============================
-function calcularGerente() {
-  var ct = leerNum('ger_tienda');
-  var base = 0;
-  if      (ct < 87)  base = 0;
-  else if (ct < 90)  base = 900;
-  else if (ct < 95)  base = 1200;
-  else if (ct < 100) base = 1700;
-  else if (ct < 105) base = 2200;
-  else if (ct < 110) base = 2800;
-  else               base = 3400;
-
-  var chipT = '';
-  if (ct < 87)       chipT = chipHTML('rojo',     '❌ < 87% — Sin incentivo');
-  else if (ct < 100) chipT = chipHTML('amarillo', '⚠️ Cumplimiento parcial (87% - 99.99%)');
-  else               chipT = chipHTML('verde',    '✅ Meta alcanzada');
-  document.getElementById('ger_chip_tienda').innerHTML = chipT;
-  document.getElementById('ger_metrica_base').innerHTML = metricaHTML('💰 Incentivo Base', fmt(base));
-
-  if (ct < 87) {
-    document.getElementById('ger_chip_eval').innerHTML = chipHTML('rojo', '❌ No aplica — Cumplimiento de tienda < 87%');
-    document.getElementById('ger_metrica_eval').innerHTML = '';
-    document.getElementById('ger_resultado').innerHTML = resultadoHTML(0, 'No se cumple el requisito mínimo de venta de tienda (87%).');
-    return;
-  }
-
-  var ev = leerNum('ger_eval');
-  var multEval = 1.0;
-  if      (ev >= 97) multEval = 2.0;
-  else if (ev >= 95) multEval = 1.7;
-  else if (ev >= 92) multEval = 1.5;
-  else if (ev >= 88) multEval = 1.3;
-  else if (ev >= 85) multEval = 1.1;
-  else               multEval = 1.0;
-
-  var chipE = '';
-  if      (multEval === 2.0) chipE = chipHTML('verde',    '✅ Evaluación 97-100% → Multiplicador máximo x2.0');
-  else if (multEval === 1.7) chipE = chipHTML('verde',    '✅ Evaluación 95-96.99% → Multiplicador x1.7');
-  else if (multEval === 1.5) chipE = chipHTML('verde',    '✅ Evaluación 92-94.99% → Multiplicador x1.5');
-  else if (multEval === 1.3) chipE = chipHTML('amarillo', '⚠️ Evaluación 88-91.99% → Multiplicador x1.3');
-  else if (multEval === 1.1) chipE = chipHTML('amarillo', '⚠️ Evaluación 85-87.99% → Multiplicador x1.1');
-  else                       chipE = chipHTML('rojo',     '❌ Evaluación < 85% → Multiplicador base x1.0');
-  document.getElementById('ger_chip_eval').innerHTML = chipE;
-
-  document.getElementById('ger_metrica_eval').innerHTML =
-    metricaHTML('💰 Incentivo Base', fmt(base)) +
-    metricaHTML('✖️ Multiplicador', 'x' + multEval.toFixed(1)) +
-    metricaHTML('🏆 Total', fmt(base * multEval));
-
-  var total = base * multEval;
-  var desg = 'Pilar 1 - Meta Tienda: ' + fmt(base);
-  desg += '<br>Pilar 2 - Evaluación Objetiva: x' + multEval.toFixed(1);
-  desg += '<br>Cálculo: ' + fmt(base) + ' × ' + multEval.toFixed(1) + ' = ' + fmt(total);
-  document.getElementById('ger_resultado').innerHTML = resultadoHTML(total, desg);
-}
-
-calcularAsesor();
+    // Ejecutar al cargar pantalla
+    calcular();
 </script>
+
 </body>
 </html>
