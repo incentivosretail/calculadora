@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Incentivos | Coppel Retail</title>
+    <title>Calculadora de Incentivos | Esquema Retail</title>
     <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -76,8 +76,8 @@
 <div class="container">
     <!-- Header -->
     <div class="header">
-        <h1>🏆 Incentivos Coppel</h1>
-        <p>Modelo Equipos Enfocados 2.0 (120 Tiendas)</p>
+        <h1>🏆 Calculadora de Incentivos</h1>
+        <p>Modelo Equipos Enfocados 2.0 (Prueba en Tiendas)</p>
     </div>
 
     <!-- Puesto Selector -->
@@ -167,7 +167,7 @@
     </div>
 
     <div class="footer">
-        Coppel Retail © 2026 — Calculadora Operativa de Incentivos
+        Esquema Retail © 2026 — Calculadora Operativa de Incentivos
     </div>
 </div>
 
