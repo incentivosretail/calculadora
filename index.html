@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Incentivos</title>
     <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -27,8 +28,7 @@
             color: white; border-radius: 16px; padding: 20px; text-align: center;
             box-shadow: 0 4px 12px rgba(11, 43, 92, 0.25); margin-bottom: 12px;
         }
-        .header h1 { font-size: 1.5rem; color: var(--yellow); font-weight: 700; margin-bottom: 4px; }
-        .header p { font-size: 0.9rem; opacity: 0.95; }
+        .header h1 { font-size: 1.5rem; color: var(--yellow); font-weight: 700; margin: 0; }
 
         /* Tarjetas Estilo Streamlit Expander */
         .card {
@@ -54,7 +54,7 @@
         .chip-red { background-color: #FEE2E2; color: #991B1B; }
         .chip-yellow { background-color: #FEF3C7; color: #92400E; }
 
-        /* Cajas de Métricas Intermedias (Vuelven las cajas azules) */
+        /* Cajas de Métricas Intermedias */
         .metrica-box {
             background: #EBF3FC; border-radius: 12px; padding: 10px; text-align: center; margin-top: 5px;
         }
@@ -72,6 +72,9 @@
         .result-breakdown { font-size: 0.85rem; color: #EBF3FC; margin-top: 12px; }
         
         .divider-azul { border: none; border-top: 1.5px solid #CBD5E1; opacity: 0.5; margin: 12px 0; }
+
+        /* Footer */
+        .footer { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 20px; padding-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -80,7 +83,6 @@
     <!-- Header -->
     <div class="header">
         <h1>🏆 Calculadora de Incentivos</h1>
-        <p>Modelo Equipos Enfocados 2.0 (Prueba Retail)</p>
     </div>
 
     <!-- Puesto Selector -->
@@ -194,6 +196,9 @@
         <div class="result-breakdown" id="desglose-texto">Cargando desglose...</div>
     </div>
 
+    <div class="footer">
+        Calculadora Operativa de Incentivos
+    </div>
 </div>
 
 <script>
