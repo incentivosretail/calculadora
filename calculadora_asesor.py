@@ -237,7 +237,7 @@
             umbralMin = 85;
             if (cumpEq < 85) { incP1 = 0; p1ChipText = "❌ < 85% — Sin pago base"; p1ChipClass = "chip-red"; }
             else if (cumpEq < 90) { incP1 = 250; p1ChipText = "⚠️ Cumplimiento Parcial (85%-89%)"; p1ChipClass = "chip-yellow"; }
-            else if (cumpEq < 95) { incP1 = 500; p1ChipText = "⚠️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
+            else if (cumpEq < 95) { incP1 = 500; p1ChipText = "⚠️️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
             else if (cumpEq < 100) { incP1 = 850; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
             else if (cumpEq < 110) { incP1 = 1300; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
             else if (cumpEq < 120) { incP1 = 1650; p1ChipText = "✅ Sobremeta (110%-119%)"; }
@@ -272,14 +272,14 @@
         // -------------------------------------------------------------
         // PILAR 2: VENTA GRUPAL
         // -------------------------------------------------------------
-        let incCredito = (cumpCredito >= 90) ? 150 : 0;
-        let incDigital = (cumpDigital >= 90) ? 150 : 0;
+        let incCredito = (cumpCredito >= 95) ? 150 : 0;
+        let incDigital = (cumpDigital >= 95) ? 150 : 0;
         let incTienda = (cumpTienda >= 100) ? 300 : 0;
         let incP2 = incCredito + incDigital + incTienda;
 
         let chipsP2Html = "";
-        chipsP2Html += `<span class="chip ${incCredito > 0 ? 'chip-green' : 'chip-red'}">${incCredito > 0 ? '✅ Crédito ≥90% (+$150)' : '❌ Crédito <90% (+$0)'}</span> `;
-        chipsP2Html += `<span class="chip ${incDigital > 0 ? 'chip-green' : 'chip-red'}">${incDigital > 0 ? '✅ Digital ≥90% (+$150)' : '❌ Digital <90% (+$0)'}</span> `;
+        chipsP2Html += `<span class="chip ${incCredito > 0 ? 'chip-green' : 'chip-red'}">${incCredito > 0 ? '✅ Crédito ≥95% (+$150)' : '❌ Crédito <95% (+$0)'}</span> `;
+        chipsP2Html += `<span class="chip ${incDigital > 0 ? 'chip-green' : 'chip-red'}">${incDigital > 0 ? '✅ Digital ≥95% (+$150)' : '❌ Digital <95% (+$0)'}</span> `;
         chipsP2Html += `<span class="chip ${incTienda > 0 ? 'chip-green' : 'chip-red'}">${incTienda > 0 ? '✅ Tienda ≥100% (+$300)' : '❌ Tienda <100% (+$0)'}</span>`;
         
         document.getElementById('chips-pilar2').innerHTML = chipsP2Html;
