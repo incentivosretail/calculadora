@@ -40,6 +40,8 @@
 
         /* Inputs y Labels */
         label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 4px; }
+        .label-desc { font-size: 0.75rem; color: var(--blue-accent); font-weight: 600; display: block; margin-bottom: 6px; }
+        
         input, select {
             width: 100%; padding: 10px 12px; font-size: 1.05rem; font-weight: 600;
             border: 2px solid var(--navy); border-radius: 10px; margin-bottom: 12px;
@@ -53,6 +55,7 @@
         .chip-green { background-color: #D1FAE5; color: #065F46; }
         .chip-red { background-color: #FEE2E2; color: #991B1B; }
         .chip-yellow { background-color: #FEF3C7; color: #92400E; }
+        .chip-blue { background-color: #DBEAFE; color: #1E3A8A; }
 
         /* Cajas de Métricas Intermedias */
         .metrica-box {
@@ -92,100 +95,138 @@
             <option value="asesor">🎯 Asesor de Ventas</option>
             <option value="telefonia">📱 Asesor de Telefonía</option>
             <option value="optometrista">👁️ Optometrista</option>
+            <option value="gerente">👔 Gerente Titular</option>
         </select>
     </div>
 
-    <!-- Pilar 1: Venta de Equipo -->
-    <div class="card">
-        <div class="card-title">🤝 Pilar 1 — Venta de Equipo</div>
-        
-        <div id="campo-optica-monto" style="display:none;">
-            <label for="monto-optica">Venta Total de Óptica en el Mes ($):</label>
-            <input type="number" id="monto-optica" placeholder="Ej: 146100" value="146100" oninput="calcular()">
-        </div>
+    <!-- SECCIÓN GERENTE TITULAR -->
+    <div id="seccion-gerente" style="display:none;">
+        <div class="card">
+            <div class="card-title">🏪 Venta de Tienda y Evaluación</div>
+            
+            <label for="cump-tienda-gerente">% Cumplimiento Meta Venta Tienda:</label>
+            <input type="number" id="cump-tienda-gerente" placeholder="Ej: 103" value="103" oninput="calcular()">
 
-        <label for="cump-equipo">% Cumplimiento Meta del Equipo:</label>
-        <input type="number" id="cump-equipo" placeholder="Ej: 103" value="103" oninput="calcular()">
-        
-        <div id="chip-pilar1"></div>
-        <div class="metrica-box">
-            <div class="metrica-etiqueta">💰 Incentivo Base Pilar 1</div>
-            <div class="metrica-valor" id="res-p1">$0.00</div>
+            <label for="eval-objetiva">% Resultado Evaluación Objetiva:</label>
+            <input type="number" id="eval-objetiva" placeholder="Ej: 98" value="98" oninput="calcular()">
+            
+            <div id="chips-gerente"></div>
+            
+            <div class="grid-2">
+                <div class="metrica-box">
+                    <div class="metrica-etiqueta">💰 Incentivo Base Tienda</div>
+                    <div class="metrica-valor" id="res-gerente-base">$0.00</div>
+                </div>
+                <div class="metrica-box">
+                    <div class="metrica-etiqueta">✖️ Multiplicador Eval.</div>
+                    <div class="metrica-valor" id="res-gerente-mult">1.0x</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Pilar 2: Venta Grupal -->
-    <div class="card">
-        <div class="card-title">🏪 Pilar 2 — Venta Grupal (Tienda)</div>
-        <div class="grid-2">
-            <div>
-                <label for="cump-credito">% Venta a Crédito Tienda:</label>
-                <input type="number" id="cump-credito" placeholder="Ej: 96" value="96" oninput="calcular()">
+    <!-- SECCIÓN OPERATIVOS (PILARES 1, 2 Y 3) -->
+    <div id="seccion-operativos">
+        <!-- Pilar 1: Venta de Equipo -->
+        <div class="card">
+            <div class="card-title">🤝 Pilar 1 — Venta de Equipo</div>
+            
+            <div id="campo-optica-monto" style="display:none; background: #F8FAFC; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #CBD5E1;">
+                <label for="monto-optica">👓 Venta Total de Óptica en el Mes ($):</label>
+                <span class="label-desc">Requisito mínimo: $45,000 para desbloquear pago.</span>
+                <input type="number" id="monto-optica" placeholder="Ej: 46000" value="46000" oninput="calcular()">
             </div>
-            <div>
-                <label for="cump-digital">% 1ª Compra Digital:</label>
-                <input type="number" id="cump-digital" placeholder="Ej: 103" value="103" oninput="calcular()">
-            </div>
-        </div>
-        <label for="cump-tienda">% Venta Total Tienda:</label>
-        <input type="number" id="cump-tienda" placeholder="Ej: 100" value="100" oninput="calcular()">
-        
-        <div id="chips-pilar2"></div>
-        <div class="metrica-box">
-            <div class="metrica-etiqueta">🤝 Total Pilar 2 (Venta Grupal)</div>
-            <div class="metrica-valor" id="res-p2">$0.00</div>
-        </div>
-    </div>
 
-    <!-- Pilar 3: Comisiones Individuales -->
-    <div class="card">
-        <div class="card-title">💼 Pilar 3 — Comisión Individual (Unidades)</div>
-        <div id="chip-pilar3-status"></div>
-        <hr class="divider-azul">
-        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px; font-weight:600;">Ingresa la cantidad de unidades vendidas:</p>
-        
-        <div class="grid-2">
-            <div>
-                <label for="q-gex">🔧 Garantía Extendida:</label>
-                <input type="number" id="q-gex" placeholder="0" value="45" oninput="calcular()">
-            </div>
-            <div>
-                <label for="q-arm">🔩 Servicio Armado:</label>
-                <input type="number" id="q-arm" placeholder="0" value="8" oninput="calcular()">
-            </div>
-            <div>
-                <label for="q-inst">🔌 Instalaciones:</label>
-                <input type="number" id="q-inst" placeholder="0" value="0" oninput="calcular()">
-            </div>
-            <div>
-                <label for="q-club">🛡️ Club de Protección:</label>
-                <input type="number" id="q-club" placeholder="0" value="0" oninput="calcular()">
-            </div>
-            <div>
-                <label for="q-mrc">🏍️ Seguro Motos RC:</label>
-                <input type="number" id="q-mrc" placeholder="0" value="20" oninput="calcular()">
-            </div>
-            <div>
-                <label for="q-mplus">🏍️ Seguro Motos PLUS:</label>
-                <input type="number" id="q-mplus" placeholder="0" value="0" oninput="calcular()">
+            <label for="cump-equipo">% Cumplimiento Meta del Equipo:</label>
+            <input type="number" id="cump-equipo" placeholder="Ej: 103" value="103" oninput="calcular()">
+            
+            <div id="chip-pilar1"></div>
+            <div class="metrica-box">
+                <div class="metrica-etiqueta">💰 Incentivo Base Pilar 1</div>
+                <div class="metrica-valor" id="res-p1">$0.00</div>
             </div>
         </div>
-        <label for="q-cel">📱 Seguro Celulares:</label>
-        <input type="number" id="q-cel" placeholder="0" value="52" oninput="calcular()">
 
-        <div class="grid-2">
-            <div class="metrica-box">
-                <div class="metrica-etiqueta">🔧 Servicios (GEX/Arm/Inst)</div>
-                <div class="metrica-valor" id="res-p3-serv">$0.00</div>
+        <!-- Pilar 2: Venta Grupal -->
+        <div class="card">
+            <div class="card-title">🏪 Pilar 2 — Venta Grupal (Tienda)</div>
+            <div class="grid-2">
+                <div>
+                    <label for="cump-credito">% Venta a Crédito Tienda:</label>
+                    <input type="number" id="cump-credito" placeholder="Ej: 96" value="96" oninput="calcular()">
+                </div>
+                <div>
+                    <label for="cump-digital">% 1ª Compra Digital:</label>
+                    <input type="number" id="cump-digital" placeholder="Ej: 103" value="103" oninput="calcular()">
+                </div>
             </div>
+            <label for="cump-tienda">% Venta Total Tienda:</label>
+            <input type="number" id="cump-tienda" placeholder="Ej: 100" value="100" oninput="calcular()">
+            
+            <div id="chips-pilar2"></div>
             <div class="metrica-box">
-                <div class="metrica-etiqueta">🛡️ Seguros (Club/Motos/Cel)</div>
-                <div class="metrica-valor" id="res-p3-seg">$0.00</div>
+                <div class="metrica-etiqueta">🤝 Total Pilar 2 (Venta Grupal)</div>
+                <div class="metrica-valor" id="res-p2">$0.00</div>
             </div>
         </div>
-        <div class="metrica-box" style="margin-top: 10px;">
-            <div class="metrica-etiqueta">💼 Total Comisiones Pilar 3</div>
-            <div class="metrica-valor" id="res-p3-total">$0.00</div>
+
+        <!-- Pilar 3: Comisiones Individuales -->
+        <div class="card">
+            <div class="card-title">💼 Pilar 3 — Comisión Individual (Unidades)</div>
+            <div id="chip-pilar3-status"></div>
+            <hr class="divider-azul">
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px; font-weight:600;">Ingresa la cantidad de unidades vendidas:</p>
+            
+            <div class="grid-2">
+                <div>
+                    <label for="q-gex">🔧 Garantía Extendida:</label>
+                    <span class="label-desc">Base: $15 | Top: $30</span>
+                    <input type="number" id="q-gex" placeholder="0" value="45" oninput="calcular()">
+                </div>
+                <div>
+                    <label for="q-arm">🔩 Servicio Armado:</label>
+                    <span class="label-desc">Base: $10 | Top: $15</span>
+                    <input type="number" id="q-arm" placeholder="0" value="8" oninput="calcular()">
+                </div>
+                <div>
+                    <label for="q-inst">🔌 Instalaciones:</label>
+                    <span class="label-desc">Base: $40 | Top: $70</span>
+                    <input type="number" id="q-inst" placeholder="0" value="0" oninput="calcular()">
+                </div>
+                <div>
+                    <label for="q-club">🛡️ Club de Protección:</label>
+                    <span class="label-desc">Base: $1.5 | Top: $3.0</span>
+                    <input type="number" id="q-club" placeholder="0" value="0" oninput="calcular()">
+                </div>
+                <div>
+                    <label for="q-mrc">🏍 Seguro Motos RC:</label>
+                    <span class="label-desc">Base: $25 | Top: $40</span>
+                    <input type="number" id="q-mrc" placeholder="0" value="20" oninput="calcular()">
+                </div>
+                <div>
+                    <label for="q-mplus">🏍️ Seguro Motos PLUS:</label>
+                    <span class="label-desc">Base: $50 | Top: $90</span>
+                    <input type="number" id="q-mplus" placeholder="0" value="0" oninput="calcular()">
+                </div>
+            </div>
+            <label for="q-cel">📱 Seguro Celulares:</label>
+            <span class="label-desc">Base: $5 | Top: $10</span>
+            <input type="number" id="q-cel" placeholder="0" value="52" oninput="calcular()">
+
+            <div class="grid-2">
+                <div class="metrica-box">
+                    <div class="metrica-etiqueta">🔧 Servicios (GEX/Arm/Inst)</div>
+                    <div class="metrica-valor" id="res-p3-serv">$0.00</div>
+                </div>
+                <div class="metrica-box">
+                    <div class="metrica-etiqueta">🛡️ Seguros (Club/Motos/Cel)</div>
+                    <div class="metrica-valor" id="res-p3-seg">$0.00</div>
+                </div>
+            </div>
+            <div class="metrica-box" style="margin-top: 10px;">
+                <div class="metrica-etiqueta">💼 Total Comisiones Pilar 3</div>
+                <div class="metrica-valor" id="res-p3-total">$0.00</div>
+            </div>
         </div>
     </div>
 
@@ -202,127 +243,163 @@
 </div>
 
 <script>
-    // Formateador de moneda para MXN
     const formater = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' });
 
     function calcular() {
         const puesto = document.getElementById('puesto').value;
-        const cumpEq = parseFloat(document.getElementById('cump-equipo').value) || 0;
-        const montoOptica = parseFloat(document.getElementById('monto-optica').value) || 0;
-        
-        const cumpCredito = parseFloat(document.getElementById('cump-credito').value) || 0;
-        const cumpDigital = parseFloat(document.getElementById('cump-digital').value) || 0;
-        const cumpTienda = parseFloat(document.getElementById('cump-tienda').value) || 0;
+        const esGerente = (puesto === 'gerente');
 
-        const qGex = parseInt(document.getElementById('q-gex').value) || 0;
-        const qArm = parseInt(document.getElementById('q-arm').value) || 0;
-        const qInst = parseInt(document.getElementById('q-inst').value) || 0;
-        const qClub = parseInt(document.getElementById('q-club').value) || 0;
-        const qMrc = parseInt(document.getElementById('q-mrc').value) || 0;
-        const qMplus = parseInt(document.getElementById('q-mplus').value) || 0;
-        const qCel = parseInt(document.getElementById('q-cel').value) || 0;
+        document.getElementById('seccion-operativos').style.display = esGerente ? 'none' : 'block';
+        document.getElementById('seccion-gerente').style.display = esGerente ? 'block' : 'none';
 
-        // Mostrar / Ocultar campo especial Óptica
-        document.getElementById('campo-optica-monto').style.display = (puesto === 'optometrista') ? 'block' : 'none';
+        let totalFinal = 0;
+        let textoDesglose = "";
 
-        // -------------------------------------------------------------
-        // PILAR 1: VENTA DE EQUIPO
-        // -------------------------------------------------------------
-        let incP1 = 0;
-        let umbralMin = 85;
-        let p1ChipText = "";
-        let p1ChipClass = "chip-green";
+        if (esGerente) {
+            // LÓGICA GERENTE TITULAR
+            const cumpTiendaGte = parseFloat(document.getElementById('cump-tienda-gerente').value) || 0;
+            const evalObj = parseFloat(document.getElementById('eval-objetiva').value) || 0;
 
-        if (puesto === 'asesor') {
-            umbralMin = 85;
-            if (cumpEq < 85) { incP1 = 0; p1ChipText = "❌ < 85% — Sin pago base"; p1ChipClass = "chip-red"; }
-            else if (cumpEq < 90) { incP1 = 250; p1ChipText = "⚠️ Cumplimiento Parcial (85%-89%)"; p1ChipClass = "chip-yellow"; }
-            else if (cumpEq < 95) { incP1 = 500; p1ChipText = "⚠️️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
-            else if (cumpEq < 100) { incP1 = 850; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
-            else if (cumpEq < 110) { incP1 = 1300; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
-            else if (cumpEq < 120) { incP1 = 1650; p1ChipText = "✅ Sobremeta (110%-119%)"; }
-            else { incP1 = 2000; p1ChipText = "✅ Máximo Cumplimiento (≥120%)"; }
-        } 
-        else if (puesto === 'telefonia') {
-            umbralMin = 90;
-            if (cumpEq < 90) { incP1 = 0; p1ChipText = "❌ < 90% — Sin pago base"; p1ChipClass = "chip-red"; }
-            else if (cumpEq < 95) { incP1 = 900; p1ChipText = "⚠️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
-            else if (cumpEq < 100) { incP1 = 1100; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
-            else if (cumpEq < 110) { incP1 = 1450; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
-            else if (cumpEq < 120) { incP1 = 1750; p1ChipText = "✅ Sobremeta (110%-119%)"; }
-            else { incP1 = 2100; p1ChipText = "✅ Máximo Cumplimiento (≥120%)"; }
-        } 
-        else if (puesto === 'optometrista') {
-            umbralMin = 80;
-            if (montoOptica < 45000) {
-                incP1 = 0; p1ChipText = "❌ Venta Óptica < $45,000 — Sin pago base"; p1ChipClass = "chip-red";
-            } else if (cumpEq < 80) {
-                incP1 = 0; p1ChipText = "❌ < 80% — Sin pago base"; p1ChipClass = "chip-red";
-            } else if (cumpEq < 90) { incP1 = 500; p1ChipText = "⚠️ Cumplimiento Parcial (80%-89%)"; p1ChipClass = "chip-yellow"; }
-            else if (cumpEq < 95) { incP1 = 900; p1ChipText = "⚠️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
-            else if (cumpEq < 100) { incP1 = 1200; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
-            else if (cumpEq < 110) { incP1 = 1600; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
-            else if (cumpEq < 120) { incP1 = 1900; p1ChipText = "✅ Sobremeta (110%-119%)"; }
-            else { incP1 = 2300; p1ChipText = "✅ Máximo Cumplimiento (≥120%)"; }
-        }
+            let incBaseGte = 0;
+            if (cumpTiendaGte < 87) incBaseGte = 0;
+            else if (cumpTiendaGte < 90) incBaseGte = 900;
+            else if (cumpTiendaGte < 95) incBaseGte = 1200;
+            else if (cumpTiendaGte < 100) incBaseGte = 1700;
+            else if (cumpTiendaGte < 105) incBaseGte = 2200;
+            else if (cumpTiendaGte < 110) incBaseGte = 2800;
+            else incBaseGte = 3400;
 
-        document.getElementById('chip-pilar1').innerHTML = `<span class="chip ${p1ChipClass}">${p1ChipText}</span>`;
-        document.getElementById('res-p1').innerText = formater.format(incP1);
+            let multGte = 1.0;
+            if (evalObj < 85) multGte = 1.0;
+            else if (evalObj < 88) multGte = 1.1;
+            else if (evalObj < 92) multGte = 1.3;
+            else if (evalObj < 95) multGte = 1.5;
+            else if (evalObj < 97) multGte = 1.7;
+            else multGte = 2.0;
 
-        // -------------------------------------------------------------
-        // PILAR 2: VENTA GRUPAL
-        // -------------------------------------------------------------
-        let incCredito = (cumpCredito >= 95) ? 150 : 0;
-        let incDigital = (cumpDigital >= 95) ? 150 : 0;
-        let incTienda = (cumpTienda >= 100) ? 300 : 0;
-        let incP2 = incCredito + incDigital + incTienda;
+            document.getElementById('res-gerente-base').innerText = formater.format(incBaseGte);
+            document.getElementById('res-gerente-mult').innerText = multGte.toFixed(1) + "x";
+            
+            let chipsGteHtml = `<span class="chip ${incBaseGte > 0 ? 'chip-green' : 'chip-red'}">${incBaseGte > 0 ? '✅ Venta Tienda ≥87%' : '❌ Venta Tienda <87% (Sin Incentivo)'}</span>`;
+            document.getElementById('chips-gerente').innerHTML = chipsGteHtml;
 
-        let chipsP2Html = "";
-        chipsP2Html += `<span class="chip ${incCredito > 0 ? 'chip-green' : 'chip-red'}">${incCredito > 0 ? '✅ Crédito ≥95% (+$150)' : '❌ Crédito <95% (+$0)'}</span> `;
-        chipsP2Html += `<span class="chip ${incDigital > 0 ? 'chip-green' : 'chip-red'}">${incDigital > 0 ? '✅ Digital ≥95% (+$150)' : '❌ Digital <95% (+$0)'}</span> `;
-        chipsP2Html += `<span class="chip ${incTienda > 0 ? 'chip-green' : 'chip-red'}">${incTienda > 0 ? '✅ Tienda ≥100% (+$300)' : '❌ Tienda <100% (+$0)'}</span>`;
-        
-        document.getElementById('chips-pilar2').innerHTML = chipsP2Html;
-        document.getElementById('res-p2').innerText = formater.format(incP2);
+            totalFinal = incBaseGte * multGte;
+            textoDesglose = `Incentivo Base Tienda: <b>${formater.format(incBaseGte)}</b> | Multiplicador de Evaluación: <b>${multGte.toFixed(1)}x</b>`;
 
-        // -------------------------------------------------------------
-        // PILAR 3: COMISIONES POR UNIDAD
-        // -------------------------------------------------------------
-        let incP3 = 0;
-        let tServ = 0;
-        let tSeg = 0;
-        let habilitadoP3 = (cumpEq >= umbralMin) && (puesto !== 'optometrista' || montoOptica >= 45000);
-
-        if (!habilitadoP3) {
-            document.getElementById('chip-pilar3-status').innerHTML = `<span class="chip chip-red">❌ Requisito de Equipo No Cumplido — Comisiones Bloqueadas</span>`;
         } else {
-            let esTop = (cumpEq >= 100);
-            document.getElementById('chip-pilar3-status').innerHTML = `<span class="chip ${esTop ? 'chip-green' : 'chip-yellow'}">${esTop ? '✅ Tasas Máximas Activas (Equipo ≥100%)' : '⚠️ Tasas Básicas Activas'}</span>`;
+            // LÓGICA ASESORES Y ÓPTICA
+            const cumpEq = parseFloat(document.getElementById('cump-equipo').value) || 0;
+            const montoOptica = parseFloat(document.getElementById('monto-optica').value) || 0;
+            
+            const cumpCredito = parseFloat(document.getElementById('cump-credito').value) || 0;
+            const cumpDigital = parseFloat(document.getElementById('cump-digital').value) || 0;
+            const cumpTienda = parseFloat(document.getElementById('cump-tienda').value) || 0;
 
-            let mGex = esTop ? 30 : 15;
-            let mArm = esTop ? 15 : 10;
-            let mInst = esTop ? 70 : 40;
-            let mClub = esTop ? 3.0 : 1.5;
-            let mMrc = esTop ? 40 : 25;
-            let mMplus = esTop ? 90 : 50;
-            let mCel = esTop ? 10 : 5;
+            const qGex = parseInt(document.getElementById('q-gex').value) || 0;
+            const qArm = parseInt(document.getElementById('q-arm').value) || 0;
+            const qInst = parseInt(document.getElementById('q-inst').value) || 0;
+            const qClub = parseInt(document.getElementById('q-club').value) || 0;
+            const qMrc = parseInt(document.getElementById('q-mrc').value) || 0;
+            const qMplus = parseInt(document.getElementById('q-mplus').value) || 0;
+            const qCel = parseInt(document.getElementById('q-cel').value) || 0;
 
-            tServ = (qGex * mGex) + (qArm * mArm) + (qInst * mInst);
-            tSeg = (qClub * mClub) + (qMrc * mMrc) + (qMplus * mMplus) + (qCel * mCel);
-            incP3 = tServ + tSeg;
+            document.getElementById('campo-optica-monto').style.display = (puesto === 'optometrista') ? 'block' : 'none';
+
+            // HABILITADOR GLOBAL (Porcentaje Mínimo + Regla 45k Óptica)
+            let umbralMin = (puesto === 'asesor') ? 85 : (puesto === 'telefonia' ? 90 : 80);
+            let pasoMontoOptica = (puesto !== 'optometrista' || montoOptica >= 45000);
+            let habilitadoGlobal = (cumpEq >= umbralMin) && pasoMontoOptica;
+
+            // PILAR 1: VENTA DE EQUIPO
+            let incP1 = 0;
+            let p1ChipText = "";
+            let p1ChipClass = "chip-green";
+
+            if (!pasoMontoOptica) {
+                incP1 = 0; p1ChipText = "❌ Venta Óptica < $45,000 — Base Bloqueada"; p1ChipClass = "chip-red";
+            } else if (puesto === 'asesor') {
+                if (cumpEq < 85) { incP1 = 0; p1ChipText = "❌ < 85% — Sin pago base"; p1ChipClass = "chip-red"; }
+                else if (cumpEq < 90) { incP1 = 250; p1ChipText = "⚠️ Cumplimiento Parcial (85%-89%)"; p1ChipClass = "chip-yellow"; }
+                else if (cumpEq < 95) { incP1 = 500; p1ChipText = "⚠️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
+                else if (cumpEq < 100) { incP1 = 850; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
+                else if (cumpEq < 110) { incP1 = 1300; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
+                else if (cumpEq < 120) { incP1 = 1650; p1ChipText = "✅ Sobremeta (110%-119%)"; }
+                else { incP1 = 2000; p1ChipText = "✅ Máximo Cumplimiento (≥120%)"; }
+            } 
+            else if (puesto === 'telefonia') {
+                if (cumpEq < 90) { incP1 = 0; p1ChipText = "❌ < 90% — Sin pago base"; p1ChipClass = "chip-red"; }
+                else if (cumpEq < 95) { incP1 = 900; p1ChipText = "⚠️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
+                else if (cumpEq < 100) { incP1 = 1100; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
+                else if (cumpEq < 110) { incP1 = 1450; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
+                else if (cumpEq < 120) { incP1 = 1750; p1ChipText = "✅ Sobremeta (110%-119%)"; }
+                else { incP1 = 2100; p1ChipText = "✅ Máximo Cumplimiento (≥120%)"; }
+            } 
+            else if (puesto === 'optometrista') {
+                if (cumpEq < 80) { incP1 = 0; p1ChipText = "❌ < 80% — Sin pago base"; p1ChipClass = "chip-red"; }
+                else if (cumpEq < 90) { incP1 = 500; p1ChipText = "⚠️ Cumplimiento Parcial (80%-89%)"; p1ChipClass = "chip-yellow"; }
+                else if (cumpEq < 95) { incP1 = 900; p1ChipText = "⚠️ Cumplimiento Parcial (90%-94%)"; p1ChipClass = "chip-yellow"; }
+                else if (cumpEq < 100) { incP1 = 1200; p1ChipText = "⚠️ Cumplimiento Parcial (95%-99%)"; p1ChipClass = "chip-yellow"; }
+                else if (cumpEq < 110) { incP1 = 1600; p1ChipText = "✅ Meta Alcanzada (100%-109%)"; }
+                else if (cumpEq < 120) { incP1 = 1900; p1ChipText = "✅ Sobremeta (110%-119%)"; }
+                else { incP1 = 2300; p1ChipText = "✅ Máximo Cumplimiento (≥120%)"; }
+            }
+
+            document.getElementById('chip-pilar1').innerHTML = `<span class="chip ${p1ChipClass}">${p1ChipText}</span>`;
+            document.getElementById('res-p1').innerText = formater.format(incP1);
+
+            // PILAR 2: VENTA GRUPAL
+            let incCredito = (habilitadoGlobal && cumpCredito >= 95) ? 150 : 0;
+            let incDigital = (habilitadoGlobal && cumpDigital >= 95) ? 150 : 0;
+            let incTienda = (habilitadoGlobal && cumpTienda >= 100) ? 300 : 0;
+            let incP2 = incCredito + incDigital + incTienda;
+
+            let chipsP2Html = "";
+            if (!habilitadoGlobal) {
+                chipsP2Html = `<span class="chip chip-red">❌ Requisito Base No Cumplido — Bono Bloqueado</span>`;
+            } else {
+                chipsP2Html += `<span class="chip ${incCredito > 0 ? 'chip-green' : 'chip-red'}">${incCredito > 0 ? '✅ Crédito ≥95% (+$150)' : '❌ Crédito <95% (+$0)'}</span> `;
+                chipsP2Html += `<span class="chip ${incDigital > 0 ? 'chip-green' : 'chip-red'}">${incDigital > 0 ? '✅ Digital ≥95% (+$150)' : '❌ Digital <95% (+$0)'}</span> `;
+                chipsP2Html += `<span class="chip ${incTienda > 0 ? 'chip-green' : 'chip-red'}">${incTienda > 0 ? '✅ Tienda ≥100% (+$300)' : '❌ Tienda <100% (+$0)'}</span>`;
+            }
+            document.getElementById('chips-pilar2').innerHTML = chipsP2Html;
+            document.getElementById('res-p2').innerText = formater.format(incP2);
+
+            // PILAR 3: COMISIONES POR UNIDAD
+            let incP3 = 0;
+            let tServ = 0;
+            let tSeg = 0;
+
+            if (!habilitadoGlobal) {
+                document.getElementById('chip-pilar3-status').innerHTML = `<span class="chip chip-red">❌ Requisito Base No Cumplido — Comisiones Bloqueadas</span>`;
+            } else {
+                let esTop = (cumpEq >= 100);
+                document.getElementById('chip-pilar3-status').innerHTML = `<span class="chip ${esTop ? 'chip-green' : 'chip-blue'}">${esTop ? '🚀 Tasas Máximas Activas (Equipo ≥100%)' : '✅ Tasas Básicas Activas'}</span>`;
+
+                let mGex = esTop ? 30 : 15;
+                let mArm = esTop ? 15 : 10;
+                let mInst = esTop ? 70 : 40;
+                let mClub = esTop ? 3.0 : 1.5;
+                let mMrc = esTop ? 40 : 25;
+                let mMplus = esTop ? 90 : 50;
+                let mCel = esTop ? 10 : 5;
+
+                tServ = (qGex * mGex) + (qArm * mArm) + (qInst * mInst);
+                tSeg = (qClub * mClub) + (qMrc * mMrc) + (qMplus * mMplus) + (qCel * mCel);
+                incP3 = tServ + tSeg;
+            }
+
+            document.getElementById('res-p3-serv').innerText = formater.format(tServ);
+            document.getElementById('res-p3-seg').innerText = formater.format(tSeg);
+            document.getElementById('res-p3-total').innerText = formater.format(incP3);
+
+            // TOTAL Y DESGLOSE OPERATIVOS
+            totalFinal = incP1 + incP2 + incP3;
+            textoDesglose = `Pilar 1 (Equipo): <b>${formater.format(incP1)}</b> | Pilar 2 (Grupal): <b>${formater.format(incP2)}</b> | Pilar 3 (Comisiones): <b>${formater.format(incP3)}</b>`;
         }
 
-        document.getElementById('res-p3-serv').innerText = formater.format(tServ);
-        document.getElementById('res-p3-seg').innerText = formater.format(tSeg);
-        document.getElementById('res-p3-total').innerText = formater.format(incP3);
-
-        // -------------------------------------------------------------
-        // TOTAL Y DESGLOSE
-        // -------------------------------------------------------------
-        const totalFinal = incP1 + incP2 + incP3;
-        
+        // MOSTRAR RESULTADO FINAL
         document.getElementById('total-incentivo').innerText = formater.format(totalFinal) + " MXN";
-        document.getElementById('desglose-texto').innerHTML = `Pilar 1 (Equipo): <b>${formater.format(incP1)}</b> | Pilar 2 (Grupal): <b>${formater.format(incP2)}</b> | Pilar 3 (Comisiones): <b>${formater.format(incP3)}</b>`;
+        document.getElementById('desglose-texto').innerHTML = textoDesglose;
     }
 
     // Ejecutar al cargar la pantalla
